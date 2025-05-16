@@ -13,6 +13,6 @@ void Player::update(std::vector<SDL_Event> &events, float deltaTime) {
     if (pos[1] > 640) {
         pos[1] = 0;
     }
-    pos[0] += 0.01f;
-    pos[1] += 0.01f;
+    pos[0] += 30.0f * deltaTime;
+    pos[1] += 30.0f * deltaTime;
 }
