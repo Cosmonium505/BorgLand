@@ -9,15 +9,19 @@ void Player::render(SDL_Renderer* renderer) {
 
 void Player::update(std::vector<SDL_Event> &events, float deltaTime) {
     if (engineParams.keys[SDL_SCANCODE_W] || engineParams.keys[SDL_SCANCODE_UP]) {
-        pos[1] -= speed * deltaTime;
+        velocity[1] -= speed * deltaTime;
     }
     else if (engineParams.keys[SDL_SCANCODE_S] || engineParams.keys[SDL_SCANCODE_DOWN]) {
-        pos[1] += speed * deltaTime;
+        velocity[1] += speed * deltaTime;
     }
     if (engineParams.keys[SDL_SCANCODE_A] || engineParams.keys[SDL_SCANCODE_LEFT]) {
-        pos[0] -= speed * deltaTime;
+        velocity[0] -= speed * deltaTime;
     }
     else if (engineParams.keys[SDL_SCANCODE_D] || engineParams.keys[SDL_SCANCODE_RIGHT]) {
-        pos[0] += speed * deltaTime;
+        velocity[0] += speed * deltaTime;
     }
+    pos[0] += velocity[0] * deltaTime;
+    pos[1] += velocity[1] * deltaTime;
+    velocity[0] *= friction;
+    velocity[1] *= friction;
 }
