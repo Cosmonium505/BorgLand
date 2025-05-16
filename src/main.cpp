@@ -10,6 +10,7 @@
 
 #undef main
 
+EngineParams engineParams;
 int main() {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Window* window = SDL_CreateWindow("Hello SDL2",
@@ -30,7 +31,6 @@ int main() {
     }
 
     // Engine setup
-    EngineParams engineParams;
     engineParams.screenWidth = 640;
     engineParams.screenHeight = 480;
     engineParams.title = "Borgland";
