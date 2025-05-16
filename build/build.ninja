@@ -53,7 +53,7 @@ build CMakeFiles/BorgLand.dir/src/main.cpp.o: CXX_COMPILER__BorgLand_unscanned_D
   CONFIG = Debug
   DEP_FILE = CMakeFiles/BorgLand.dir/src/main.cpp.o.d
   FLAGS = -g -std=c++20
-  INCLUDES = -I/home/user/Documents/BorgLand/include
+  INCLUDES = -I/home/user/Documents/BorgLand/include -isystem /usr/include/SDL2
   OBJECT_DIR = CMakeFiles/BorgLand.dir
   OBJECT_FILE_DIR = CMakeFiles/BorgLand.dir/src
 
@@ -65,11 +65,12 @@ build CMakeFiles/BorgLand.dir/src/main.cpp.o: CXX_COMPILER__BorgLand_unscanned_D
 #############################################
 # Link the executable BorgLand
 
-build BorgLand: CXX_EXECUTABLE_LINKER__BorgLand_Debug CMakeFiles/BorgLand.dir/src/main.cpp.o
+build BorgLand: CXX_EXECUTABLE_LINKER__BorgLand_Debug CMakeFiles/BorgLand.dir/src/main.cpp.o | /usr/lib/libSDL2main.a /usr/lib/libSDL2-2.0.so.0.3200.56
   CONFIG = Debug
   DEP_FILE = CMakeFiles/BorgLand.dir/link.d
   FLAGS = -g
   LINK_FLAGS = -Wl,--dependency-file=CMakeFiles/BorgLand.dir/link.d
+  LINK_LIBRARIES = /usr/lib/libSDL2main.a  /usr/lib/libSDL2-2.0.so.0.3200.56
   OBJECT_DIR = CMakeFiles/BorgLand.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -132,14 +133,14 @@ build all: phony BorgLand
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja /home/user/Documents/BorgLand/build/cmake_install.cmake /home/user/Documents/BorgLand/build/CTestTestfile.cmake: RERUN_CMAKE | /home/user/Documents/BorgLand/CMakeLists.txt /usr/share/cmake/Modules/CMakeCXXInformation.cmake /usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake/Modules/CMakeGenericSystem.cmake /usr/share/cmake/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake/Modules/CMakeLanguageInformation.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake/Modules/Compiler/GNU.cmake /usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake /usr/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake /usr/share/cmake/Modules/Linker/GNU-CXX.cmake /usr/share/cmake/Modules/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake/Modules/Platform/Linux.cmake /usr/share/cmake/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/4.0.2-dirty/CMakeCXXCompiler.cmake CMakeFiles/4.0.2-dirty/CMakeSystem.cmake
+build build.ninja /home/user/Documents/BorgLand/build/cmake_install.cmake /home/user/Documents/BorgLand/build/CTestTestfile.cmake: RERUN_CMAKE | /home/user/Documents/BorgLand/CMakeLists.txt /usr/lib/cmake/SDL2/SDL2Config.cmake /usr/lib/cmake/SDL2/SDL2ConfigVersion.cmake /usr/lib/cmake/SDL2/SDL2Targets-none.cmake /usr/lib/cmake/SDL2/SDL2Targets.cmake /usr/lib/cmake/SDL2/SDL2mainTargets-none.cmake /usr/lib/cmake/SDL2/SDL2mainTargets.cmake /usr/share/cmake/Modules/CMakeCXXInformation.cmake /usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake/Modules/CMakeGenericSystem.cmake /usr/share/cmake/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake/Modules/CMakeLanguageInformation.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake/Modules/Compiler/GNU.cmake /usr/share/cmake/Modules/FeatureSummary.cmake /usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake /usr/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake /usr/share/cmake/Modules/Linker/GNU-CXX.cmake /usr/share/cmake/Modules/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake/Modules/Platform/Linux.cmake /usr/share/cmake/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/4.0.2-dirty/CMakeCXXCompiler.cmake CMakeFiles/4.0.2-dirty/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build /home/user/Documents/BorgLand/CMakeLists.txt /usr/share/cmake/Modules/CMakeCXXInformation.cmake /usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake/Modules/CMakeGenericSystem.cmake /usr/share/cmake/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake/Modules/CMakeLanguageInformation.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake/Modules/Compiler/GNU.cmake /usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake /usr/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake /usr/share/cmake/Modules/Linker/GNU-CXX.cmake /usr/share/cmake/Modules/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake/Modules/Platform/Linux.cmake /usr/share/cmake/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/4.0.2-dirty/CMakeCXXCompiler.cmake CMakeFiles/4.0.2-dirty/CMakeSystem.cmake: phony
+build /home/user/Documents/BorgLand/CMakeLists.txt /usr/lib/cmake/SDL2/SDL2Config.cmake /usr/lib/cmake/SDL2/SDL2ConfigVersion.cmake /usr/lib/cmake/SDL2/SDL2Targets-none.cmake /usr/lib/cmake/SDL2/SDL2Targets.cmake /usr/lib/cmake/SDL2/SDL2mainTargets-none.cmake /usr/lib/cmake/SDL2/SDL2mainTargets.cmake /usr/share/cmake/Modules/CMakeCXXInformation.cmake /usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake/Modules/CMakeGenericSystem.cmake /usr/share/cmake/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake/Modules/CMakeLanguageInformation.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake/Modules/Compiler/GNU.cmake /usr/share/cmake/Modules/FeatureSummary.cmake /usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake /usr/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake /usr/share/cmake/Modules/Linker/GNU-CXX.cmake /usr/share/cmake/Modules/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake/Modules/Platform/Linux.cmake /usr/share/cmake/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/4.0.2-dirty/CMakeCXXCompiler.cmake CMakeFiles/4.0.2-dirty/CMakeSystem.cmake: phony
 
 
 #############################################

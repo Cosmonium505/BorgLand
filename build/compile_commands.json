@@ -1,7 +1,7 @@
 [
 {
   "directory": "/home/user/Documents/BorgLand/build",
-  "command": "/usr/bin/g++ -I/home/user/Documents/BorgLand/include -g -std=c++20 -o CMakeFiles/BorgLand.dir/src/main.cpp.o -c /home/user/Documents/BorgLand/src/main.cpp",
+  "command": "/usr/bin/g++ -I/home/user/Documents/BorgLand/include -isystem /usr/include/SDL2 -g -std=c++20 -o CMakeFiles/BorgLand.dir/src/main.cpp.o -c /home/user/Documents/BorgLand/src/main.cpp",
   "file": "/home/user/Documents/BorgLand/src/main.cpp",
   "output": "CMakeFiles/BorgLand.dir/src/main.cpp.o"
 }
