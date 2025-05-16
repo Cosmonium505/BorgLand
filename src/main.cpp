@@ -1,9 +1,12 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <chrono>
 
 #include "object.hpp"
 #include "world.hpp"
 #include "player.hpp"
+
+#include "engine.hpp"
 
 #undef main
 
@@ -26,6 +29,13 @@ int main() {
         return 1;
     }
 
+    // Engine setup
+    EngineParams engineParams;
+    engineParams.screenWidth = 640;
+    engineParams.screenHeight = 480;
+    engineParams.title = "Borgland";
+    engineParams.engineTime = 0;
+    
     // World Setup
 
     World world;
@@ -39,14 +49,29 @@ int main() {
 
     SDL_Event event;
     bool running = true;
+
+    std::vector<SDL_Event> events;
+    std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
+    float deltaTime = 0.0f;
     while (running) {
+        deltaTime = std::chrono::duration<float>(std::chrono::high_resolution_clock::now() - lastTime).count();
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = false;
             }
+            else {
+                events.push_back(event);
+            }
         }
-        world.update();
+        engineParams.engineTime++;
+        world.update(std::vector<SDL_Event>(events), deltaTime);
         world.render(renderer);
+        events.clear();
+
+        lastTime = std::chrono::high_resolution_clock::now();
+        if (engineParams.frameLimitEnabled) {
+            SDL_Delay(1000 / engineParams.fpsLimiter);
+        }
     }
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

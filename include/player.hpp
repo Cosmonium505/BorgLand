@@ -8,5 +8,5 @@ class Player : public Object {
         float size[2] = {50, 50};
 
         virtual void render(SDL_Renderer* renderer) override;
-        virtual void update() override;
+        virtual void update(std::vector<SDL_Event> &events, float deltaTime) override;
 };

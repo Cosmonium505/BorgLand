@@ -6,7 +6,7 @@ void Player::render(SDL_Renderer* renderer) {
     SDL_RenderFillRect(renderer, &rect);
 }
 
-void Player::update() {
+void Player::update(std::vector<SDL_Event> &events, float deltaTime) {
     if (pos[0] > 640) {
         pos[0] = 0;
     }

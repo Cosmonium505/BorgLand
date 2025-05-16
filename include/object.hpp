@@ -2,6 +2,7 @@
 
 #include <string>
 #include <SDL2/SDL.h>
+#include <vector>
 
 class Object {
     public:
@@ -15,7 +16,7 @@ class Object {
         virtual void render(SDL_Renderer* renderer) {
             // Default render implementation
         }
-        virtual void update() {
+        virtual void update(std::vector<SDL_Event> &events, float deltaTime) {
             // Default update implementation
         }
 };

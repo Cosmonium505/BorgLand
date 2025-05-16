@@ -11,5 +11,5 @@ class World {
         std::vector<Object*> objects;
 
         virtual void render(SDL_Renderer* renderer);
-        virtual void update();
+        virtual void update(std::vector<SDL_Event> events, float deltaTime);
 };

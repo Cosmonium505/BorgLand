@@ -11,8 +11,8 @@ void World::render(SDL_Renderer* renderer) {
     SDL_RenderPresent(renderer);
 }
 
-void World::update() {
+void World::update(std::vector<SDL_Event> events, float deltaTime) {
     for (Object* obj : objects) {
-        obj->update();
+        obj->update(events, deltaTime);
     }
 }
