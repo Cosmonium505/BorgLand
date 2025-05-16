@@ -14,6 +14,4 @@ void Player::update(std::vector<SDL_Event> &events, float deltaTime) {
     if (pos[1] > engineParams.screenHeight - size[1]) {
         pos[1] = 0;
     }
-    pos[0] += 80.0f * deltaTime;
-    pos[1] += 80.0f * deltaTime;
 }
