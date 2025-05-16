@@ -62,6 +62,14 @@ int main() {
             else {
                 events.push_back(event);
             }
+
+            int size = 0;
+            SDL_GetKeyboardState(&size);
+            const Uint8* state = SDL_GetKeyboardState(&size);
+            engineParams.keys.clear();
+            for (int i = 0; i < size; ++i) {
+                engineParams.keys.push_back((Uint8*)state[i]);
+            }
         }
         engineParams.engineTime++;
         world.update(std::vector<SDL_Event>(events), deltaTime);

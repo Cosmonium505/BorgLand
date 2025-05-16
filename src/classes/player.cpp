@@ -8,12 +8,16 @@ void Player::render(SDL_Renderer* renderer) {
 }
 
 void Player::update(std::vector<SDL_Event> &events, float deltaTime) {
-    if (pos[0] > engineParams.screenWidth - size[0]) {
-        pos[0] = 0;
+    if (engineParams.keys[SDL_SCANCODE_W]) {
+        pos[1] -= speed * deltaTime;
     }
-    if (pos[1] > engineParams.screenHeight - size[1]) {
-        pos[1] = 0;
+    else if (engineParams.keys[SDL_SCANCODE_S]) {
+        pos[1] += speed * deltaTime;
     }
-    pos[0] += 80.0f * deltaTime;
-    pos[1] += 80.0f * deltaTime;
+    if (engineParams.keys[SDL_SCANCODE_A]) {
+        pos[0] -= speed * deltaTime;
+    }
+    else if (engineParams.keys[SDL_SCANCODE_D]) {
+        pos[0] += speed * deltaTime;
+    }
 }
