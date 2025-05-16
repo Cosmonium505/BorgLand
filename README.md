@@ -1,2 +1,2 @@
 # BorgLand
-2d tilemap game idk
+A small 2D game with a simple game engine.
