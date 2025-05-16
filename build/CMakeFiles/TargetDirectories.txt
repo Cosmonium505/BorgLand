@@ -1,4 +1,0 @@
-/home/user/Documents/BorgLand/build/CMakeFiles/BorgLand.dir
-/home/user/Documents/BorgLand/build/CMakeFiles/test.dir
-/home/user/Documents/BorgLand/build/CMakeFiles/edit_cache.dir
-/home/user/Documents/BorgLand/build/CMakeFiles/rebuild_cache.dir
