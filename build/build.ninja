@@ -57,6 +57,22 @@ build CMakeFiles/BorgLand.dir/src/main.cpp.o: CXX_COMPILER__BorgLand_unscanned_D
   OBJECT_DIR = CMakeFiles/BorgLand.dir
   OBJECT_FILE_DIR = CMakeFiles/BorgLand.dir/src
 
+build CMakeFiles/BorgLand.dir/src/classes/world.cpp.o: CXX_COMPILER__BorgLand_unscanned_Debug /home/user/Documents/BorgLand/src/classes/world.cpp || cmake_object_order_depends_target_BorgLand
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles/BorgLand.dir/src/classes/world.cpp.o.d
+  FLAGS = -g -std=c++20
+  INCLUDES = -I/home/user/Documents/BorgLand/include -isystem /usr/include/SDL2
+  OBJECT_DIR = CMakeFiles/BorgLand.dir
+  OBJECT_FILE_DIR = CMakeFiles/BorgLand.dir/src/classes
+
+build CMakeFiles/BorgLand.dir/src/classes/player.cpp.o: CXX_COMPILER__BorgLand_unscanned_Debug /home/user/Documents/BorgLand/src/classes/player.cpp || cmake_object_order_depends_target_BorgLand
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles/BorgLand.dir/src/classes/player.cpp.o.d
+  FLAGS = -g -std=c++20
+  INCLUDES = -I/home/user/Documents/BorgLand/include -isystem /usr/include/SDL2
+  OBJECT_DIR = CMakeFiles/BorgLand.dir
+  OBJECT_FILE_DIR = CMakeFiles/BorgLand.dir/src/classes
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target BorgLand
@@ -65,7 +81,7 @@ build CMakeFiles/BorgLand.dir/src/main.cpp.o: CXX_COMPILER__BorgLand_unscanned_D
 #############################################
 # Link the executable BorgLand
 
-build BorgLand: CXX_EXECUTABLE_LINKER__BorgLand_Debug CMakeFiles/BorgLand.dir/src/main.cpp.o | /usr/lib/libSDL2main.a /usr/lib/libSDL2-2.0.so.0.3200.56
+build BorgLand: CXX_EXECUTABLE_LINKER__BorgLand_Debug CMakeFiles/BorgLand.dir/src/main.cpp.o CMakeFiles/BorgLand.dir/src/classes/world.cpp.o CMakeFiles/BorgLand.dir/src/classes/player.cpp.o | /usr/lib/libSDL2main.a /usr/lib/libSDL2-2.0.so.0.3200.56
   CONFIG = Debug
   DEP_FILE = CMakeFiles/BorgLand.dir/link.d
   FLAGS = -g

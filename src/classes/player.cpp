@@ -1,0 +1,14 @@
+#include "player.hpp"
+
+void Player::render(SDL_Renderer* renderer) {
+    SDL_SetRenderDrawColor(renderer, color[0], color[1], color[2], 255);
+    SDL_Rect rect = { static_cast<int>(pos[0]), static_cast<int>(pos[1]), static_cast<int>(size[0]), static_cast<int>(size[1]) };
+    SDL_RenderFillRect(renderer, &rect);
+}
+
+void Player::update() {
+    if (pos[0] > 640) {
+        pos[0] = 0;
+    }
+    pos[0] += 0.01f;
+}

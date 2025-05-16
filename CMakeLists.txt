@@ -8,6 +8,8 @@ endif()
 
 set(BORGLAND_SOURCE_FILES
     src/main.cpp
+    src/classes/world.cpp
+    src/classes/player.cpp
 )
 
 include_directories(include)

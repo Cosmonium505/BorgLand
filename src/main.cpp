@@ -1,5 +1,10 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+
+#include "object.hpp"
+#include "world.hpp"
+#include "player.hpp"
+
 #undef main
 
 int main() {
@@ -21,9 +26,16 @@ int main() {
         return 1;
     }
 
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
+    // World Setup
+
+    World world;
+    Player player;
+    player.name = "Player";
+
+    world.objects.push_back(&player);
+
+
+    // End world setup
 
     SDL_Event event;
     bool running = true;
@@ -33,6 +45,8 @@ int main() {
                 running = false;
             }
         }
+        world.update();
+        world.render(renderer);
     }
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
