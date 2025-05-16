@@ -68,6 +68,15 @@ int main() {
         world.render(renderer);
         events.clear();
 
+        if (engineParams.showFPS) {
+            SDL_SetWindowTitle(window, (engineParams.title + " - FPS: " + std::to_string(1.0f / deltaTime)).c_str());
+        }
+        else {
+            SDL_SetWindowTitle(window, engineParams.title.c_str());
+        }
+
+        SDL_SetWindowSize(window, engineParams.screenWidth, engineParams.screenHeight);
+
         lastTime = std::chrono::high_resolution_clock::now();
         if (engineParams.frameLimitEnabled) {
             SDL_Delay(1000 / engineParams.fpsLimiter);

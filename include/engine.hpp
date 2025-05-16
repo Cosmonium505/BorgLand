@@ -10,6 +10,8 @@ class EngineParams {
         int engineTime = 0;
         int fpsLimiter = 60;
         bool frameLimitEnabled = true;
+
+        bool showFPS = true;
 };
 
 extern EngineParams engineParams;
