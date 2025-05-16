@@ -10,5 +10,9 @@ void Player::update() {
     if (pos[0] > 640) {
         pos[0] = 0;
     }
+    if (pos[1] > 640) {
+        pos[1] = 0;
+    }
     pos[0] += 0.01f;
+    pos[1] += 0.01f;
 }
