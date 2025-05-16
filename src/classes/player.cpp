@@ -7,10 +7,10 @@ void Player::render(SDL_Renderer* renderer) {
 }
 
 void Player::update(std::vector<SDL_Event> &events, float deltaTime) {
-    if (pos[0] > 640) {
+    if (pos[0] > 640.0f) {
         pos[0] = 0;
     }
-    if (pos[1] > 640) {
+    if (pos[1] > 640.0f) {
         pos[1] = 0;
     }
     pos[0] += 30.0f * deltaTime;
