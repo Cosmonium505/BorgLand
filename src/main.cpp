@@ -78,7 +78,7 @@ int main() {
         events.clear();
 
         if (engineParams.showFPS) {
-            SDL_SetWindowTitle(window, (engineParams.title + " - FPS: " + std::to_string(std::round(1.0f / deltaTime))).c_str());
+            SDL_SetWindowTitle(window, (engineParams.title + " - FPS: " + std::to_string(static_cast<int>(1.0f / deltaTime))).c_str());
         }
         else {
             SDL_SetWindowTitle(window, engineParams.title.c_str());
