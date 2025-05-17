@@ -39,7 +39,7 @@ int testTileMap[20][20] = {
 EngineParams engineParams;
 int main() {
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_Window* window = SDL_CreateWindow("Hello SDL2",
+    SDL_Window* window = SDL_CreateWindow("Loading...",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
                                           640, 480,

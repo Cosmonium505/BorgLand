@@ -5,6 +5,11 @@ project(BorgLand VERSION 0.1.0 LANGUAGES CXX)
 if (UNIX)
     set(CMAKE_TOOLCHAIN_FILE "$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake")
 endif()
+if(MSVC)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
+    target_compile_options(your_target_name [PUBLIC|PRIVATE] /MT)
+    target_link_options(your_target_name [PUBLIC|PRIVATE] /INCREMENTAL:NO /NODEFAULTLIB:MSVCRT)
+endif()
 
 set(BORGLAND_SOURCE_FILES
     src/main.cpp
@@ -17,6 +22,7 @@ set(BORGLAND_SOURCE_FILES
 include_directories(include)
 
 enable_testing()
+
 
 add_executable(BorgLand ${BORGLAND_SOURCE_FILES})
 
