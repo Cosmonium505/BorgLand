@@ -7,6 +7,7 @@
 class World {
     public:
         int color[3] = {0, 0, 0};
+        float gravity[2] = {0.0f, 500.0f};
 
         std::vector<Object*> objects;
 

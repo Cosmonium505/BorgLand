@@ -1,4 +1,5 @@
 #pragma once
+#include "world.hpp"
 #include <string>
 #include <SDL2/SDL.h>
 #include <vector>
@@ -11,6 +12,7 @@ class EngineParams {
 
         std::vector<Uint8*> keys;
         
+        World* currentWorld = nullptr;
 
         int engineTime = 0;
         int fpsLimiter = 60;

@@ -31,14 +31,15 @@ int main() {
     }
 
     // Engine setup
-    engineParams.screenWidth = 640;
-    engineParams.screenHeight = 480;
+    engineParams.screenWidth = 1280;
+    engineParams.screenHeight = 720;
     engineParams.title = "Borgland";
     engineParams.engineTime = 0;
     
     // World Setup
 
     World world;
+    engineParams.currentWorld = &world;
     Player player;
     player.name = "Player";
 
