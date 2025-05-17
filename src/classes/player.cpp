@@ -15,6 +15,12 @@ void Player::update(std::vector<SDL_Event> &events, float deltaTime) {
         engineParams.currentWorld->worldpos[0] -= speed * deltaTime;
     }
 
+    if (pos[1] > (engineParams.screenHeight - size[1] + engineParams.currentWorld->worldpos[1])) {
+        engineParams.currentWorld->worldpos[1] += speed * deltaTime;
+    } else if(pos[1] <= engineParams.currentWorld->worldpos[1]) {
+        engineParams.currentWorld->worldpos[1] -= speed * deltaTime;
+    }
+
     if (engineParams.keys[SDL_SCANCODE_A] || engineParams.keys[SDL_SCANCODE_LEFT]) {
         velocity[0] -= speed * deltaTime;
     }
@@ -33,41 +39,53 @@ void Player::update(std::vector<SDL_Event> &events, float deltaTime) {
     pos[1] += velocity[1] * deltaTime;
 
     bool onGround = false;
+    // Calculate movement vector
+    float moveX = pos[0] - prevX;
+    float moveY = pos[1] - prevY;
+    
     for (Object* block : engineParams.currentWorld->objects) {
+        if (block->type != ObjectType::BLOCK) {
+            continue;
+        }
         float blockX = block->pos[0];
         float blockY = block->pos[1];
         float blockWidth = block->size[0];
         float blockHeight = block->size[1];
+
+        float testX = prevX + (moveX > 0 ? 0 : moveX);
+        float testY = prevY + (moveY > 0 ? 0 : moveY);
+        float testWidth = size[0] + std::abs(moveX);
+        float testHeight = size[1] + std::abs(moveY);
         
-        if (pos[0] < blockX + blockWidth &&
-            pos[0] + size[0] > blockX &&
-            pos[1] < blockY + blockHeight &&
-            pos[1] + size[1] > blockY) {
-            
-            float overlapX1 = (pos[0] + size[0]) - blockX;
-            float overlapX2 = (blockX + blockWidth) - pos[0];
-            float overlapY1 = (pos[1] + size[1]) - blockY;
-            float overlapY2 = (blockY + blockHeight) - pos[1];
-            
-            float overlapX = (overlapX1 < overlapX2) ? overlapX1 : overlapX2;
-            float overlapY = (overlapY1 < overlapY2) ? overlapY1 : overlapY2;
-            
-            if (overlapX < overlapY) {
-                if (prevX + size[0] <= blockX) {
-                    pos[0] = blockX - size[0];
+        if (testX < blockX + blockWidth &&
+            testX + testWidth > blockX &&
+            testY < blockY + blockHeight &&
+            testY + testHeight > blockY) {
+
+            float tNearX = (moveX == 0) ? -INFINITY : (moveX > 0 ? (blockX - (prevX + size[0])) : ((blockX + blockWidth) - prevX)) / moveX;
+            float tNearY = (moveY == 0) ? -INFINITY : (moveY > 0 ? (blockY - (prevY + size[1])) : ((blockY + blockHeight) - prevY)) / moveY;
+            float tFarX = (moveX == 0) ? INFINITY : (moveX > 0 ? ((blockX + blockWidth) - prevX) : (blockX - (prevX + size[0]))) / moveX;
+            float tFarY = (moveY == 0) ? INFINITY : (moveY > 0 ? ((blockY + blockHeight) - prevY) : (blockY - (prevY + size[1]))) / moveY;
+
+            float tHit = std::max(tNearX, tNearY);
+            float tExit = std::min(tFarX, tFarY);
+
+            if (tExit >= tHit && tHit >= 0 && tHit <= 1) {
+                if (tNearX > tNearY) {
                     velocity[0] = 0;
-                } else if (prevX >= blockX + blockWidth) {
-                    pos[0] = blockX + blockWidth;
-                    velocity[0] = 0;
-                }
-            } else {
-                if (prevY + size[1] <= blockY) {
-                    pos[1] = blockY - size[1];
+                    if (moveX > 0) {
+                        pos[0] = blockX - size[0];
+                    } else {
+                        pos[0] = blockX + blockWidth;
+                    }
+                } else {
                     velocity[1] = 0;
-                    onGround = true;
-                } else if (prevY >= blockY + blockHeight) {
-                    pos[1] = blockY + blockHeight;
-                    velocity[1] = 0;
+                    if (moveY > 0) {
+                        pos[1] = blockY - size[1];
+                        onGround = true;
+                    } else {
+                        pos[1] = blockY + blockHeight;
+                    }
                 }
             }
         }
