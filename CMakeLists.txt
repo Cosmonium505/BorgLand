@@ -5,18 +5,13 @@ project(BorgLand VERSION 0.1.0 LANGUAGES CXX)
 if (UNIX)
     set(CMAKE_TOOLCHAIN_FILE "$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake")
 endif()
-if(MSVC)
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
-    target_compile_options(BorgLand PRIVATE /MT)
-    target_link_options(BorgLand PRIVATE /INCREMENTAL:NO /NODEFAULTLIB:MSVCRT)
-endif()
 
 set(BORGLAND_SOURCE_FILES
-    src/main.cpp
-    src/classes/world.cpp
-    src/classes/player.cpp
-    src/classes/block.cpp
-    src/tileLoader.cpp
+src/main.cpp
+src/classes/world.cpp
+src/classes/player.cpp
+src/classes/block.cpp
+src/tileLoader.cpp
 )
 
 include_directories(include)
@@ -25,6 +20,11 @@ enable_testing()
 
 
 add_executable(BorgLand ${BORGLAND_SOURCE_FILES})
+if(MSVC)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
+    target_compile_options(BorgLand PRIVATE /MT)
+    target_link_options(BorgLand PRIVATE /INCREMENTAL:NO /NODEFAULTLIB:MSVCRT)
+endif()
 
 set_target_properties(BorgLand PROPERTIES
     CXX_STANDARD 20
