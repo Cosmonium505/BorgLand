@@ -20,12 +20,18 @@ void Player::update(std::vector<SDL_Event> &events, float deltaTime) {
     velocity[0] += engineParams.currentWorld->gravity[0] * deltaTime;
     velocity[1] += engineParams.currentWorld->gravity[1] * deltaTime;
 
-    if (pos[1] > engineParams.screenHeight - size[1]) {
-        pos[1] = engineParams.screenHeight - size[1];
-        velocity[1] *= -1.0f;
-    }
-
     pos[0] += velocity[0] * deltaTime;
     pos[1] += velocity[1] * deltaTime;
 
+    if (pos[1] > engineParams.screenHeight - size[1]) {
+        pos[1] = engineParams.screenHeight - size[1];
+        for (SDL_Event& event : events) {
+            if (event.type == SDL_KEYDOWN) {
+                if (event.key.keysym.sym == SDLK_w || event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_SPACE) {
+                    velocity[1] = jumppower;
+                }
+            }
+        }
+        //velocity[1] *= -0.9f; bounci
+    }
 }

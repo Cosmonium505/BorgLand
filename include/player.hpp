@@ -8,6 +8,7 @@ class Player : public Object {
         float size[2] = {50, 50};
 
         float speed = 1000.0f;
+        float jumppower = -350.0f;
         float velocity[2] = {0.0f, 0.0f};
         float friction = 0.95f;
 
