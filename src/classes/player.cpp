@@ -11,6 +11,8 @@ void Player::render(SDL_Renderer* renderer) {
 void Player::update(std::vector<SDL_Event> &events, float deltaTime) {
     if (pos[0] > (engineParams.screenWidth - size[0] + engineParams.currentWorld->worldpos[0])) {
         engineParams.currentWorld->worldpos[0] += speed * deltaTime;
+    } else if(pos[0] <= engineParams.currentWorld->worldpos[0]) {
+        engineParams.currentWorld->worldpos[0] -= speed * deltaTime;
     }
 
     if (engineParams.keys[SDL_SCANCODE_A] || engineParams.keys[SDL_SCANCODE_LEFT]) {
