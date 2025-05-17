@@ -7,8 +7,8 @@ if (UNIX)
 endif()
 if(MSVC)
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
-    target_compile_options(BorgLand [PUBLIC|PRIVATE] /MT)
-    target_link_options(BorgLand [PUBLIC|PRIVATE] /INCREMENTAL:NO /NODEFAULTLIB:MSVCRT)
+    target_compile_options(BorgLand PRIVATE /MT)
+    target_link_options(BorgLand PRIVATE /INCREMENTAL:NO /NODEFAULTLIB:MSVCRT)
 endif()
 
 set(BORGLAND_SOURCE_FILES
