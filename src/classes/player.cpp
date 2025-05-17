@@ -4,11 +4,17 @@
 
 void Player::render(SDL_Renderer* renderer) {
     SDL_SetRenderDrawColor(renderer, color[0], color[1], color[2], 255);
-    SDL_Rect rect = { static_cast<int>(pos[0] + engineParams.currentWorld->worldpos[0]), static_cast<int>(pos[1] + engineParams.currentWorld->worldpos[1]), static_cast<int>(size[0]), static_cast<int>(size[1])};
+    SDL_Rect rect = { static_cast<int>(pos[0] - engineParams.currentWorld->worldpos[0]), static_cast<int>(pos[1] - engineParams.currentWorld->worldpos[1]), static_cast<int>(size[0]), static_cast<int>(size[1])};
     SDL_RenderFillRect(renderer, &rect);
 }
 
 void Player::update(std::vector<SDL_Event> &events, float deltaTime) {
+    if (pos[0] > (engineParams.screenWidth - size[0] + engineParams.currentWorld->worldpos[0])) {
+        engineParams.currentWorld->worldpos[0] += speed * deltaTime;
+    } else if(pos[0] <= engineParams.currentWorld->worldpos[0]) {
+        engineParams.currentWorld->worldpos[0] -= speed * deltaTime;
+    }
+
     if (engineParams.keys[SDL_SCANCODE_A] || engineParams.keys[SDL_SCANCODE_LEFT]) {
         velocity[0] -= speed * deltaTime;
     }
