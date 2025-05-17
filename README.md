@@ -1,4 +1,6 @@
 # BorgLand
+REQUIRES VCREDIST (on windows)
+
 A small 2D game with a simple game engine.
 
 Empty TileMap:
