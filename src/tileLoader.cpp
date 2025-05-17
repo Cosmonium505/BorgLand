@@ -10,9 +10,9 @@ std::vector<Tile> convertBitmaskToTilemap(int* tilemap, int sizeX, int sizeY) {
     std::vector<Tile> tiles = std::vector<Tile>();
     for (int y = 0; y < sizeY; ++y) {
         for (int x = 0; x < sizeX; ++x) {
-            if (tilemap[y * sizeX + x] == 1) {
+            if (tilemap[y * sizeX + x] != 0) {
                 Tile tile;
-                tile.type = 1;
+                tile.type = tilemap[y * sizeX + x];
                 tile.x = x;
                 tile.y = y;
                 tiles.push_back(tile);

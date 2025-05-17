@@ -4,12 +4,20 @@
 #include <SDL2/SDL.h>
 #include <vector>
 
+enum class ObjectType {
+    PLAYER,
+    BLOCK,
+    UNKNOWN
+};
+
 class Object {
     public:
         std::string name;
         float pos[2] = {0, 0};
         float size[2] = {0, 0};
         int color[3] = {255, 255, 255};
+
+        ObjectType type = ObjectType::UNKNOWN;
 
         int rotation = 0;
 

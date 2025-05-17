@@ -16,9 +16,9 @@
 int testTileMap[10][10] = {
     {1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
     {1, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-    {1, 0, 0, 0, 1, 1, 1, 1, 1, 1},
+    {1, 0, 2, 0, 1, 1, 1, 1, 1, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
     {0, 0, 0, 0, 0, 0, 0, 0, 0 ,1},
     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,1},
     {1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1},
@@ -55,23 +55,29 @@ int main() {
 
     World world;
     engineParams.currentWorld = &world;
-    Player player;
-    player.name = "Player";
-
-    world.objects.push_back(&player);
 
     std::vector<Tile> tiles = convertBitmaskToTilemap((int*)testTileMap, 10, 10);
     for (Tile& tile : tiles) {
-        Block* block = new Block();
-        block->name = "Block";
-        block->pos[0] = tile.x * 50;
-        block->pos[1] = tile.y * 50;
-        block->size[0] = 50;
-        block->size[1] = 50;
-        block->color[0] = 200;
-        block->color[1] = 200;
-        block->color[2] = 200;
-        world.objects.push_back(block);
+        if (tile.type == 1) {
+            Block* block = new Block();
+            block->name = "Block";
+            block->pos[0] = tile.x * 50;
+            block->pos[1] = tile.y * 50;
+            block->size[0] = 50;
+            block->size[1] = 50;
+            block->color[0] = 200;
+            block->color[1] = 200;
+            block->color[2] = 200;
+            world.objects.push_back(block);
+        }
+        else if (tile.type == 2) {
+            Player* player = new Player();
+            player->name = "Player";
+            player->pos[0] = tile.x * 50;
+            player->pos[1] = tile.y * 50;
+            world.objects.push_back(player);
+        }
+
     }
 
 
