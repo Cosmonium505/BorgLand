@@ -5,8 +5,10 @@
 #include "object.hpp"
 #include "world.hpp"
 #include "player.hpp"
+#include "block.hpp"
 
 #include "engine.hpp"
+#include "utils/tileLoader.hpp"
 
 #undef main
 
@@ -44,6 +46,20 @@ int main() {
     player.name = "Player";
 
     world.objects.push_back(&player);
+
+    std::vector<Tile> tiles = convertBitmaskToTilemap((int*)testTileMap, 5, 5);
+    for (Tile& tile : tiles) {
+        Block* block = new Block();
+        block->name = "Block";
+        block->pos[0] = tile.x * 50;
+        block->pos[1] = tile.y * 50;
+        block->size[0] = 50;
+        block->size[1] = 50;
+        block->color[0] = 200;
+        block->color[1] = 200;
+        block->color[2] = 200;
+        world.objects.push_back(block);
+    }
 
 
     // End world setup

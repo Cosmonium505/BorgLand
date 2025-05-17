@@ -10,6 +10,8 @@ set(BORGLAND_SOURCE_FILES
     src/main.cpp
     src/classes/world.cpp
     src/classes/player.cpp
+    src/classes/block.cpp
+    src/tileLoader.cpp
 )
 
 include_directories(include)
