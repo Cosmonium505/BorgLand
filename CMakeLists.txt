@@ -18,6 +18,15 @@ include_directories(include)
 
 enable_testing()
 
+if(WIN32)
+    set(CMAKE_GENERATOR_PLATFORM x64)
+    set(CMAKE_GENERATOR "Visual Studio 17 2022")
+    set(CMAKE_SYSTEM_VERSION 10.0)
+
+    if(DEFINED ENV{VCPKG_ROOT})
+        set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
+    endif()
+endif()
 
 add_executable(BorgLand ${BORGLAND_SOURCE_FILES})
 if(MSVC)
