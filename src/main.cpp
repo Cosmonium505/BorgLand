@@ -12,6 +12,19 @@
 
 #undef main
 
+
+int testTileMap[10][10] = {
+    {1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+    {1, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+    {1, 0, 0, 0, 1, 1, 1, 1, 1, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0 ,1},
+    {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,1},
+    {1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1},
+    {1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1},
+    {1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1}
+};
 EngineParams engineParams;
 int main() {
     SDL_Init(SDL_INIT_VIDEO);
@@ -47,7 +60,7 @@ int main() {
 
     world.objects.push_back(&player);
 
-    std::vector<Tile> tiles = convertBitmaskToTilemap((int*)testTileMap, 5, 5);
+    std::vector<Tile> tiles = convertBitmaskToTilemap((int*)testTileMap, 10, 10);
     for (Tile& tile : tiles) {
         Block* block = new Block();
         block->name = "Block";

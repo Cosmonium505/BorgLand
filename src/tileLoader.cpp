@@ -6,14 +6,6 @@
 
 #include "utils/tileLoader.hpp"
 
-int testTileMap[5][5] = {
-    {0, 0, 0, 0, 0},
-    {0, 1, 1, 1, 0},
-    {0, 1, 1, 1, 0},
-    {0, 1, 1, 1, 0},
-    {0, 0, 0, 0, 0}
-};
-
 std::vector<Tile> convertBitmaskToTilemap(int* tilemap, int sizeX, int sizeY) {
     std::vector<Tile> tiles = std::vector<Tile>();
     for (int y = 0; y < sizeY; ++y) {
