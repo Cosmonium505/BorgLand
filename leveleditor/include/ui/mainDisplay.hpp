@@ -22,6 +22,7 @@ public:
     void OnLeftUp(wxMouseEvent& event);
     void OnScroll(wxMouseEvent& event);
     void OnUpdate();
+    void MoveToSelected(wxCommandEvent& event);
 
     void MoveSelLeft(wxCommandEvent& event);
     void MoveSelRight(wxCommandEvent& event);

@@ -36,6 +36,7 @@ wxBEGIN_EVENT_TABLE(EditorMainWindow, wxFrame)
 
     EVT_MENU(wxID_SELECTALL, EditorMainWindow::SelectAll)
     EVT_MENU(wxID_SELECT_FONT, EditorMainWindow::SelectType)
+    EVT_MENU(wxID_MOVE_FRAME, GameEditorDisplay::MoveToSelected)
     EVT_PAINT(GameEditorDisplay::OnPaint)
 wxEND_EVENT_TABLE()
 
@@ -91,6 +92,8 @@ EditorMainWindow::EditorMainWindow(const wxString& title)
     wxMenu *menuSelect = new wxMenu;
     menuSelect->Append(wxID_SELECTALL, "Select All\tCtrl-A");
     menuSelect->Append(wxID_SELECT_FONT, "Select type\tCtrl-T");
+    menuSelect->AppendSeparator();
+    menuSelect->Append(wxID_MOVE_FRAME, "Go to Selection\tCtrl-F");
     
     wxMenuBar *menuBar = new wxMenuBar();
     menuBar->Append(menuFile, "&File");
