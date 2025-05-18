@@ -12,10 +12,10 @@ void Player::update(std::vector<SDL_Event> &events, float deltaTime) {
     engineParams.currentWorld->worldpos[0] = pos[0] - engineParams.screenWidth / 2;
     engineParams.currentWorld->worldpos[1] = pos[1] - engineParams.screenHeight / 2;
 
-    if (engineParams.keys[SDL_SCANCODE_A] || engineParams.keys[SDL_SCANCODE_LEFT]) {
+    if (engineParams.keys[SDL_SCANCODE_A] || engineParams.keys[SDL_SCANCODE_LEFT] || SDL_GameControllerGetAxis(engineParams.controller, SDL_CONTROLLER_AXIS_LEFTX) <= -16383) {
         velocity[0] -= speed * deltaTime;
     }
-    else if (engineParams.keys[SDL_SCANCODE_D] || engineParams.keys[SDL_SCANCODE_RIGHT]) {
+    else if (engineParams.keys[SDL_SCANCODE_D] || engineParams.keys[SDL_SCANCODE_RIGHT] || SDL_GameControllerGetAxis(engineParams.controller,SDL_CONTROLLER_AXIS_LEFTX) >= 16383) {
         velocity[0] += speed * deltaTime;
     }
     velocity[0] *= friction;
@@ -79,6 +79,11 @@ void Player::update(std::vector<SDL_Event> &events, float deltaTime) {
                     }
                 }
             }
+        }
+    }
+    if (onGround) {
+        if (SDL_GameControllerGetButton(engineParams.controller, SDL_CONTROLLER_BUTTON_A)) {
+            velocity[1] = jumppower;
         }
     }
 
