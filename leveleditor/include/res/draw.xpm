@@ -1,5 +1,5 @@
 /* XPM */
-static char * draw_xpm[] = {
+static const char * draw_xpm[] = {
 "30 30 4 1",
 " 	c None",
 ".	c #E2E2E2",
