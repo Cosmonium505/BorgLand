@@ -17,8 +17,8 @@ include_directories(../include)
 
 set(LEVEL_EDITOR_SOURCE_EXTERN
     ../src/tileLoader.cpp
-    ../src/elements/blockElement.cpp
-    ../src/elements/editorElement.cpp
+    src/elements/blockElement.cpp
+    src/elements/editorElement.cpp
 )
 
 add_executable(LevelEditor
