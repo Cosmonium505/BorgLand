@@ -6,7 +6,7 @@
 #include "utils/tileLoader.hpp"
 
 int saveLevel(const std::string& filename) {
-    std::ofstream outFile(filename, std::ios::binary);
+    std::ofstream outFile(filename, std::ios::binary | std::ios::trunc);
     if (!outFile) {
         return -1; // Error opening file
     }
@@ -21,7 +21,7 @@ int saveLevel(const std::string& filename) {
 }
 
 int loadLevel(const std::string& filename) {
-    std::ifstream inFile(filename, std::ios::binary);
+    std::ifstream inFile(filename, std::ios::binary | std::ios::trunc);
     if (!inFile) {
         return -1;
     }
@@ -44,7 +44,7 @@ int loadLevel(const std::string& filename) {
 }
 
 int exportLevel(const std::string& filename) {
-    std::ofstream outFile(filename, std::ios::binary);
+    std::ofstream outFile(filename, std::ios::binary | std::ios::trunc);
     if (!outFile) {
         return -1;
     }
