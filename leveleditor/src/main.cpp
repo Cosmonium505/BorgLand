@@ -3,6 +3,9 @@
 #include "ui/mainDisplay.hpp"
 #include "editorParams.hpp"
 #include "blockElement.hpp"
+#include <wx/splitter.h>
+
+#include "ui/blockSelector.hpp"
 
 EditorEngineParams *editorParams = new EditorEngineParams();
 
@@ -36,7 +39,7 @@ bool LevelEditorApp::OnInit()
 }
 
 EditorMainWindow::EditorMainWindow(const wxString& title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(800, 600))
+    : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(800, 600))
 {
     wxMenu *menuFile = new wxMenu;
     menuFile->Append(wxID_EXIT, "Exit\tAlt-F4");
@@ -51,17 +54,36 @@ EditorMainWindow::EditorMainWindow(const wxString& title)
 
     CreateStatusBar(2);
     
-    wxPanel* panel = new wxPanel(this);
+    wxSplitterWindow* splitter = new wxSplitterWindow(this, wxID_ANY, 
+                                wxDefaultPosition, wxDefaultSize, 
+                                wxSP_BORDER | wxSP_LIVE_UPDATE);
+    
+    wxPanel* leftPanel = new wxPanel(splitter);
+    wxPanel* rightPanel = new wxPanel(splitter);
+    BlockSelector* blockSelector = new BlockSelector(rightPanel, GetId(), 
+                              wxDefaultPosition, wxSize(200, 600), 
+                              wxLB_SINGLE);
+    
     
     EditorElement* block = new BlockElement(100, 100, 50, 50);
     editorParams->elements.push_back(block);
+
+    GameEditorDisplay* editorDisplay = new GameEditorDisplay(leftPanel);
+    wxBoxSizer* rightSizer = new wxBoxSizer(wxVERTICAL);
+    rightSizer->Add(blockSelector, 1, wxEXPAND | wxALL, 5);
+    rightPanel->SetSizer(rightSizer);
+
+    wxBoxSizer* leftSizer = new wxBoxSizer(wxVERTICAL);
+    leftSizer->Add(editorDisplay, 1, wxEXPAND | wxALL, 5);
+    leftPanel->SetSizer(leftSizer);
     
-    GameEditorDisplay* editorDisplay = new GameEditorDisplay(panel);
-    wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-    sizer->Add(editorDisplay, 1, wxEXPAND | wxALL, 5);
-    panel->SetSizer(sizer);
-    panel->Layout();
-    
+    splitter->SplitVertically(leftPanel, rightPanel);
+    splitter->SetMinimumPaneSize(100);
+    splitter->SetSashPosition(550);
+
+    wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
+    mainSizer->Add(splitter, 1, wxEXPAND | wxALL, 0);
+    SetSizer(mainSizer);
 }
 
 void EditorMainWindow::OnExit(wxCommandEvent& event)
