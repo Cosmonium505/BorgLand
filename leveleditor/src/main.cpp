@@ -31,6 +31,15 @@ public:
 
     void OnLevelSave(wxCommandEvent& event);
     void OnLevelLoad(wxCommandEvent& event);
+
+    void ReturnToHome(wxCommandEvent& event) {
+        editorParams->cameraPos[0] = 0.0f;
+        editorParams->cameraPos[1] = 0.0f;
+        editorParams->zoom = 1.0f;
+        EditorMainWindow::Refresh();
+    }
+
+    void NewLevel(wxCommandEvent& event);
     
 private:
     wxDECLARE_EVENT_TABLE();
@@ -41,6 +50,7 @@ wxBEGIN_EVENT_TABLE(EditorMainWindow, wxFrame)
     EVT_MENU(wxID_HIGHEST + 1, EditorMainWindow::OnZoomIn)
     EVT_MENU(wxID_HIGHEST + 2, EditorMainWindow::OnZoomOut)
     EVT_MENU(wxID_HIGHEST + 3, EditorMainWindow::OnResetZoom)
+    EVT_MENU(wxID_HIGHEST + 9, EditorMainWindow::ReturnToHome)
     EVT_MENU(wxID_HIGHEST + 4, EditorMainWindow::ToggleGrid)
     
     EVT_MENU(wxID_HIGHEST + 5, GameEditorDisplay::MoveSelLeft)
@@ -50,6 +60,7 @@ wxBEGIN_EVENT_TABLE(EditorMainWindow, wxFrame)
 
     EVT_MENU(wxID_SAVE, EditorMainWindow::OnLevelSave)
     EVT_MENU(wxID_OPEN, EditorMainWindow::OnLevelLoad)
+    EVT_MENU(wxID_NEW, EditorMainWindow::NewLevel)
     EVT_PAINT(GameEditorDisplay::OnPaint)
 wxEND_EVENT_TABLE()
 
@@ -66,6 +77,7 @@ EditorMainWindow::EditorMainWindow(const wxString& title)
     wxMenu *menuFile = new wxMenu;
     menuFile->Append(wxID_EXIT, "Exit\tAlt-F4");
     menuFile->AppendSeparator();
+    menuFile->Append(wxID_NEW, "New\tCtrl-N");
     menuFile->Append(wxID_OPEN, "Open\tCtrl-O");
     menuFile->Append(wxID_SAVE, "Save\tCtrl-S");
 
@@ -79,10 +91,14 @@ EditorMainWindow::EditorMainWindow(const wxString& title)
     const int ID_MOVE_UP = wxID_HIGHEST + 7;
     const int ID_MOVE_DOWN = wxID_HIGHEST + 8;
 
+    const int ID_RETURN_HOME = wxID_HIGHEST + 9;
+
     wxMenu *menuView = new wxMenu;
     menuView->Append(ID_ZOOM_IN, "Zoom In\tCtrl-=");
     menuView->Append(ID_ZOOM_OUT, "Zoom Out\tCtrl--");
     menuView->Append(ID_RESET_ZOOM, "Reset Zoom\tCtrl-0");
+    menuView->AppendSeparator();
+    menuView->Append(ID_RETURN_HOME, "Return to Home\tCtrl-Home");
     menuView->AppendSeparator();
     menuView->AppendCheckItem(ID_SHOW_GRID, "Show Grid\tCtrl-G");
     menuView->Check(ID_SHOW_GRID, true);
@@ -196,6 +212,7 @@ void EditorMainWindow::OnLevelSave(wxCommandEvent& event)
 
 void EditorMainWindow::OnLevelLoad(wxCommandEvent& event)
 {
+    EditorMainWindow::NewLevel(event);
     wxFileDialog openFileDialog(this, "Open Level", "", "", 
         "Level Files (*.lvl)|*.lvl", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
     
@@ -216,6 +233,21 @@ void EditorMainWindow::OnLevelLoad(wxCommandEvent& event)
     }
 }
 
+void EditorMainWindow::NewLevel(wxCommandEvent& event)
+{
+    int response = wxMessageBox("Are you sure you want to create a new level? Unsaved changes will be lost.", 
+                                 "Confirm New Level", wxYES_NO | wxCANCEL | wxICON_QUESTION);
+    if (response == wxNO || response == wxCANCEL)
+    {
+        return;
+    }
+
+    editorParams->elements.clear();
+    editorParams->cameraPos[0] = 0.0f;
+    editorParams->cameraPos[1] = 0.0f;
+    editorParams->zoom = 1.0f;
+    Refresh();
+}
 
 int main(int argc, char **argv)
 {
