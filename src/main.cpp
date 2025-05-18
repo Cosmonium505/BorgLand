@@ -14,7 +14,7 @@
 
 EngineParams engineParams;
 int main() {
-    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_VIDEO); // Reminder to myself, put SDL_INIT_JOYSTICK when you implement controller support. - Cosmo
     SDL_Window* window = SDL_CreateWindow("Loading...",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
