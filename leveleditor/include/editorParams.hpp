@@ -16,6 +16,7 @@ class EditorEngineParams {
         float gridSize = 50.0f;
         bool showGrid = true;
         bool gridEnabled = true;
+        int currentBlockType = 0;
         EditorTool currentTool = TOOL_SELECT;
 
         std::vector<EditorElement*> elements;

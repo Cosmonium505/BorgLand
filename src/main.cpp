@@ -48,8 +48,8 @@ int main() {
         if (tile.type == 1) {
             Block* block = new Block();
             block->name = "Block";
-            block->pos[0] = tile.x * 50;
-            block->pos[1] = tile.y * 50;
+            block->pos[0] = tile.x;
+            block->pos[1] = tile.y;
             block->size[0] = 50;
             block->size[1] = 50;
             block->color[0] = 200;
@@ -60,8 +60,8 @@ int main() {
         else if (tile.type == 2) {
             Player* player = new Player();
             player->name = "Player";
-            player->pos[0] = tile.x * 50;
-            player->pos[1] = tile.y * 50;
+            player->pos[0] = tile.x;
+            player->pos[1] = tile.y;
             world.objects.push_back(player);
         }
 

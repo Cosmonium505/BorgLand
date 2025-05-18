@@ -5,11 +5,17 @@
 
 void BlockElement::render(wxPaintDC& dc) {
     if (selected) {
-        dc.SetBrush(wxBrush(wxColor(200, 200, 200)));
         dc.SetPen(wxPen(wxColor(255, 128, 0), 2));
     } else {
-        dc.SetBrush(wxBrush(wxColor(200, 200, 200)));
         dc.SetPen(wxPen(wxColor(0, 0, 0), 1));
+    }
+
+    if (blockType == 1) {
+        dc.SetBrush(wxBrush(wxColor(0, 255, 0)));
+    } else if (blockType == 2) {
+        dc.SetBrush(wxBrush(wxColor(255, 0, 0)));
+    } else {
+        dc.SetBrush(wxBrush(wxColor(200, 200, 200)));
     }
 
     dc.DrawRectangle(getX(), getY(), getWidth(), getHeight());

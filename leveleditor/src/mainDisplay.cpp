@@ -159,9 +159,10 @@ void GameEditorDisplay::OnDrag(wxMouseEvent& event)
         }
 
         if (!blockExists) {
-            EditorElement* block = new BlockElement(gridX, gridY, editorParams->gridSize, editorParams->gridSize);
+            BlockElement* block = new BlockElement(gridX, gridY, editorParams->gridSize, editorParams->gridSize);
+            block->blockType = editorParams->currentBlockType;
             block->selected = false;
-            editorParams->elements.push_back(block);
+            editorParams->elements.push_back((EditorElement*)block);
         }
 
         dragStartPos = currentPos;
@@ -207,6 +208,7 @@ void GameEditorDisplay::MoveSelLeft(wxCommandEvent& event) {
             if (shiftDown) {
                 BlockElement* newBlock = new BlockElement(block->x - editorParams->gridSize, block->y, 
                                                          block->width, block->height);
+                newBlock->blockType = block->blockType;
 
                 for (EditorElement* existingElement : editorParams->elements) {
                     existingElement->selected = false;
@@ -231,6 +233,7 @@ void GameEditorDisplay::MoveSelRight(wxCommandEvent& event) {
             if (shiftDown) {
                 BlockElement* newBlock = new BlockElement(block->x + editorParams->gridSize, block->y, 
                                                          block->width, block->height);
+                newBlock->blockType = block->blockType;
                 for (EditorElement* existingElement : editorParams->elements) {
                     existingElement->selected = false;
                 }
@@ -254,6 +257,7 @@ void GameEditorDisplay::MoveSelUp(wxCommandEvent& event) {
             if (shiftDown) {
                 BlockElement* newBlock = new BlockElement(block->x, block->y - editorParams->gridSize, 
                                                          block->width, block->height);
+                newBlock->blockType = block->blockType;
                 for (EditorElement* existingElement : editorParams->elements) {
                     existingElement->selected = false;
                 }
@@ -277,6 +281,7 @@ void GameEditorDisplay::MoveSelDown(wxCommandEvent& event) {
             if (shiftDown) {
                 BlockElement* newBlock = new BlockElement(block->x, block->y + editorParams->gridSize, 
                                                          block->width, block->height);
+                newBlock->blockType = block->blockType;
                 for (EditorElement* existingElement : editorParams->elements) {
                     existingElement->selected = false;
                 }
