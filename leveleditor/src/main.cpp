@@ -31,6 +31,7 @@ public:
 
     void OnLevelSave(wxCommandEvent& event);
     void OnLevelLoad(wxCommandEvent& event);
+    void OnLevelExport(wxCommandEvent& event);
 
     void ReturnToHome(wxCommandEvent& event) {
         editorParams->cameraPos[0] = 0.0f;
@@ -60,6 +61,7 @@ wxBEGIN_EVENT_TABLE(EditorMainWindow, wxFrame)
 
     EVT_MENU(wxID_SAVE, EditorMainWindow::OnLevelSave)
     EVT_MENU(wxID_OPEN, EditorMainWindow::OnLevelLoad)
+    EVT_MENU(wxID_FILE, EditorMainWindow::OnLevelExport)
     EVT_MENU(wxID_NEW, EditorMainWindow::NewLevel)
     EVT_PAINT(GameEditorDisplay::OnPaint)
 wxEND_EVENT_TABLE()
@@ -79,6 +81,7 @@ EditorMainWindow::EditorMainWindow(const wxString& title)
     menuFile->AppendSeparator();
     menuFile->Append(wxID_NEW, "New\tCtrl-N");
     menuFile->Append(wxID_OPEN, "Open\tCtrl-O");
+    menuFile->Append(wxID_FILE, "Export\tCtrl-E");
     menuFile->Append(wxID_SAVE, "Save\tCtrl-S");
 
     const int ID_ZOOM_IN = wxID_HIGHEST + 1;
@@ -229,6 +232,27 @@ void EditorMainWindow::OnLevelLoad(wxCommandEvent& event)
         {
             wxMessageBox("Failed to load level.", "Error", wxOK | wxICON_ERROR);
             SetStatusText("Level load failed.");
+        }
+    }
+}
+
+void EditorMainWindow::OnLevelExport(wxCommandEvent& event)
+{
+    wxFileDialog exportFileDialog(this, "Export Level", "", "", 
+        "Level Files (*.lvlc)|*.lvlc", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+    
+    if (exportFileDialog.ShowModal() == wxID_OK)
+    {
+        wxString path = exportFileDialog.GetPath();
+        std::string filename = path.ToStdString();
+        if (exportLevel(filename) == 0)
+        {
+            SetStatusText("Level exported successfully.");
+        }
+        else
+        {
+            wxMessageBox("Failed to export level.", "Error", wxOK | wxICON_ERROR);
+            SetStatusText("Level export failed.");
         }
     }
 }

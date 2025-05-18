@@ -3,6 +3,7 @@
 #include "editorParams.hpp"
 #include "editorElement.hpp"
 #include "blockElement.hpp"
+#include "utils/tileLoader.hpp"
 
 int saveLevel(const std::string& filename) {
     std::ofstream outFile(filename, std::ios::binary);
@@ -13,9 +14,7 @@ int saveLevel(const std::string& filename) {
     outFile.write(reinterpret_cast<const char*>(&numElements), sizeof(numElements));\
 
     for (EditorElement* element : editorParams->elements) {
-        std::cout << "before: " << outFile.tellp() << std::endl;
         element->save(outFile);
-        std::cout << "after: " << outFile.tellp() << std::endl;
     }
     outFile.close();
     return 0;
@@ -36,12 +35,27 @@ int loadLevel(const std::string& filename) {
             element = new BlockElement(0, 0, 0, 0);
         }
         if (element) {
-            std::cout << "before: " << inFile.tellg() << std::endl;
             element->load(inFile);
-            std::cout << "after: " << inFile.tellg() << std::endl;
             editorParams->elements.push_back(element);
         }
     }
     inFile.close();
+    return 0;
+}
+
+int exportLevel(const std::string& filename) {
+    std::ofstream outFile(filename, std::ios::binary);
+    if (!outFile) {
+        return -1;
+    }
+
+    int numElements = editorParams->elements.size();
+    outFile.write(reinterpret_cast<const char*>(&numElements), sizeof(numElements));
+    for (EditorElement* element : editorParams->elements) {
+        outFile.write(reinterpret_cast<const char*>(&element->type), sizeof(element->type));
+        outFile.write(reinterpret_cast<const char*>(&element->x), sizeof(element->x));
+        outFile.write(reinterpret_cast<const char*>(&element->y), sizeof(element->y));
+    }
+    outFile.close();
     return 0;
 }
