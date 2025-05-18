@@ -6,45 +6,13 @@
 #include <wx/splitter.h>
 #include <string>
 
+#include "mainWindow.hpp"
+
 #include "ui/blockSelector.hpp"
 #include "ui/toolDisplay.hpp"
 #include "saveLevel.hpp"
 
 EditorEngineParams *editorParams = new EditorEngineParams();
-
-class LevelEditorApp : public wxApp
-{
-public:
-    virtual bool OnInit();
-};
-
-class EditorMainWindow : public wxFrame
-{
-public:
-    EditorMainWindow(const wxString& title);
-
-    void OnExit(wxCommandEvent& event);
-    void ToggleGrid(wxCommandEvent& event);
-    void OnZoomIn(wxCommandEvent& event);
-    void OnZoomOut(wxCommandEvent& event);
-    void OnResetZoom(wxCommandEvent& event);
-
-    void OnLevelSave(wxCommandEvent& event);
-    void OnLevelLoad(wxCommandEvent& event);
-    void OnLevelExport(wxCommandEvent& event);
-
-    void ReturnToHome(wxCommandEvent& event) {
-        editorParams->cameraPos[0] = 0.0f;
-        editorParams->cameraPos[1] = 0.0f;
-        editorParams->zoom = 1.0f;
-        EditorMainWindow::Refresh();
-    }
-
-    void NewLevel(wxCommandEvent& event);
-    
-private:
-    wxDECLARE_EVENT_TABLE();
-};
 
 wxBEGIN_EVENT_TABLE(EditorMainWindow, wxFrame)
     EVT_MENU(wxID_EXIT, EditorMainWindow::OnExit)
@@ -282,5 +250,6 @@ int main(int argc, char **argv)
 {
     return wxEntry(argc, argv);
 }
+
 
 wxIMPLEMENT_APP_NO_MAIN(LevelEditorApp);

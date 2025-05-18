@@ -8,7 +8,7 @@ BlockSelector::BlockSelector(wxWindow* parent, wxWindowID id, const wxPoint& pos
 
     
     Bind(wxEVT_LISTBOX, &BlockSelector::OnSelect, this);
-    Select(1);
+    Select(0);
 }
 BlockSelector::~BlockSelector()
 {

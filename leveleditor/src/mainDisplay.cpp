@@ -6,6 +6,7 @@
 #include "editorElement.hpp"
 #include "blockElement.hpp"
 
+#include "mainWindow.hpp"
 
 GameEditorDisplay::GameEditorDisplay(wxWindow* parent)
 : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(800, 600))
@@ -94,10 +95,21 @@ void GameEditorDisplay::OnLeftUp(wxMouseEvent& event)
         bool isSelecting = false;
 
         bool isShiftDown = wxGetKeyState(WXK_SHIFT);
-
         float mouseDeltaDist = sqrt(pow(event.GetPosition().x - dragInitPos.x, 2) + pow(event.GetPosition().y - dragInitPos.y, 2));
+
+        if (editorParams->currentTool == EditorTool::TOOL_DRAW && mouseDeltaDist < 5) {
+                wxPoint currentPos = event.GetPosition();
+                float gridX = roundToGrid(((currentPos.x / editorParams->zoom) - editorParams->cameraPos[0]));
+                float gridY = roundToGrid(((currentPos.y / editorParams->zoom) - editorParams->cameraPos[1]));
+
+                BlockElement* gridBlock = new BlockElement(gridX, gridY, editorParams->gridSize, editorParams->gridSize);
+                gridBlock->blockType = editorParams->currentBlockType;
+                gridBlock->selected = false;
+                editorParams->elements.push_back((EditorElement*)gridBlock);
+        }
         if (editorParams->currentTool == EditorTool::TOOL_SELECT && mouseDeltaDist < 5) {
             wxPoint currentPos = event.GetPosition();
+            wxPoint delta = currentPos - dragStartPos;
             float gridX = roundToGrid(((currentPos.x / editorParams->zoom) - editorParams->cameraPos[0]));
             float gridY = roundToGrid(((currentPos.y / editorParams->zoom) - editorParams->cameraPos[1]));
 
@@ -119,16 +131,32 @@ void GameEditorDisplay::OnLeftUp(wxMouseEvent& event)
                     break;
                 }
             }
+            
             if (!isSelecting) {
-            for (auto element : editorParams->elements) {
-                BlockElement* block = dynamic_cast<BlockElement*>(element);
-                if (block) {
-                    block->selected = false;
+                for (auto element : editorParams->elements) {
+                    BlockElement* block = dynamic_cast<BlockElement*>(element);
+                    if (block) {
+                        block->selected = false;
+                    }
                 }
             }
         }
+    }
+    OnUpdate();
+    Refresh();
+}
+
+void GameEditorDisplay::OnUpdate()
+{
+    int objectsSelected = 0;
+    for (EditorElement* element : editorParams->elements) {
+        if (element->selected) {
+            objectsSelected++;
         }
-        Refresh();
+    }
+    EditorMainWindow* mainWindow = dynamic_cast<EditorMainWindow*>(wxTheApp->GetTopWindow());
+    if (mainWindow) {
+        mainWindow->SetStatusText(wxString::Format("Objects Selected: %d", objectsSelected));
     }
 }
 
@@ -146,7 +174,6 @@ void GameEditorDisplay::OnDrag(wxMouseEvent& event)
     }
     else if (dragging && editorParams->currentTool == EditorTool::TOOL_DRAW) {
         wxPoint currentPos = event.GetPosition();
-        wxPoint delta = currentPos - dragStartPos;
 
         float gridX = roundToGrid(((currentPos.x / editorParams->zoom) - editorParams->cameraPos[0]));
         float gridY = roundToGrid(((currentPos.y / editorParams->zoom) - editorParams->cameraPos[1]));
