@@ -9,5 +9,7 @@ class BlockElement : public EditorElement {
             type = EditorElementType::BLOCK;
         }
         
+        int blockType = 0;
+
         virtual void render(wxPaintDC& dc) override;
 };

@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.xpm": "cpp",
+        "text_encoding": "cpp",
+        "thread": "cpp"
+    }
+}

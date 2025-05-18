@@ -12,10 +12,10 @@ float EditorElement::getWidth() {
 }
 
 float EditorElement::getX() {
-    return x * editorParams->zoom + editorParams->cameraPos[0];
+    return (x + editorParams->cameraPos[0]) * editorParams->zoom;
 }
 
 float EditorElement::getY() {
-    return y * editorParams->zoom + editorParams->cameraPos[1];
+    return (y + editorParams->cameraPos[1]) * editorParams->zoom;
 }
 
