@@ -6,6 +6,7 @@
 #include "world.hpp"
 #include "player.hpp"
 #include "block.hpp"
+#include "controller.hpp"
 
 #include "engine.hpp"
 #include "utils/tileLoader.hpp"
@@ -14,7 +15,7 @@
 
 EngineParams engineParams;
 int main() {
-    SDL_Init(SDL_INIT_VIDEO); // Reminder to myself, put SDL_INIT_JOYSTICK when you implement controller support. - Cosmo
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK); // Reminder to myself, put SDL_INIT_JOYSTICK when you implement controller support. - Cosmo
     SDL_Window* window = SDL_CreateWindow("Loading...",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
@@ -77,10 +78,17 @@ int main() {
     std::chrono::high_resolution_clock::time_point lastTime = std::chrono::high_resolution_clock::now();
     float deltaTime = 0.0f;
     while (running) {
+        handleController();
         deltaTime = std::chrono::duration<float>(std::chrono::high_resolution_clock::now() - lastTime).count();
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = false;
+            }
+            else if (event.type == SDL_CONTROLLERDEVICEREMOVED) {
+                std::cout << "Controller was disconnected." << std::endl;
+                if (SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(engineParams.controller)) == event.cdevice.which) {
+                    engineParams.controller = nullptr;
+                }
             }
             else {
                 events.push_back(event);

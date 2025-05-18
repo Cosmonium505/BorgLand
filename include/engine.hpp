@@ -12,6 +12,8 @@ class EngineParams {
 
         std::vector<Uint8*> keys;
         
+        SDL_GameController* controller;
+        
         World* currentWorld = nullptr;
 
         int engineTime = 0;

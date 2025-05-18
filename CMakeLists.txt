@@ -12,7 +12,7 @@ src/classes/world.cpp
 src/classes/player.cpp
 src/classes/block.cpp
 src/tileLoader.cpp
-)
+src/controller.cpp)
 
 include_directories(include)
 
