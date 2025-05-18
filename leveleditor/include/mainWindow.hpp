@@ -24,6 +24,9 @@ public:
     void OnLevelLoad(wxCommandEvent& event);
     void OnLevelExport(wxCommandEvent& event);
 
+    void SelectAll(wxCommandEvent& event);
+    void SelectType(wxCommandEvent& event);
+
     void ReturnToHome(wxCommandEvent& event) {
         editorParams->cameraPos[0] = 0.0f;
         editorParams->cameraPos[1] = 0.0f;

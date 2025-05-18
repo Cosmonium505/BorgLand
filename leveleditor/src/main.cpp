@@ -33,6 +33,9 @@ wxBEGIN_EVENT_TABLE(EditorMainWindow, wxFrame)
     EVT_MENU(wxID_NEW, EditorMainWindow::NewLevel)
     EVT_MENU(wxID_UNDO, GameEditorDisplay::OnUndo)
     EVT_MENU(wxID_REDO, GameEditorDisplay::OnRedo)
+
+    EVT_MENU(wxID_SELECTALL, EditorMainWindow::SelectAll)
+    EVT_MENU(wxID_SELECT_FONT, EditorMainWindow::SelectType)
     EVT_PAINT(GameEditorDisplay::OnPaint)
 wxEND_EVENT_TABLE()
 
@@ -84,11 +87,17 @@ EditorMainWindow::EditorMainWindow(const wxString& title)
     menuEdit->AppendSeparator();
     menuEdit->Append(wxID_UNDO, "Undo\tCtrl-Z");
     menuEdit->Append(wxID_REDO, "Redo\tCtrl-Shift-Z");
+
+    wxMenu *menuSelect = new wxMenu;
+    menuSelect->Append(wxID_SELECTALL, "Select All\tCtrl-A");
+    menuSelect->Append(wxID_SELECT_FONT, "Select type\tCtrl-T");
     
     wxMenuBar *menuBar = new wxMenuBar();
     menuBar->Append(menuFile, "&File");
     menuBar->Append(menuView, "&View");
     menuBar->Append(menuEdit, "&Edit");
+    menuBar->Append(menuSelect, "&Select");
+
     
     SetMenuBar(menuBar);
 
@@ -206,6 +215,45 @@ void EditorMainWindow::OnLevelLoad(wxCommandEvent& event)
             wxMessageBox("Failed to load level.", "Error", wxOK | wxICON_ERROR);
             SetStatusText("Level load failed.");
         }
+    }
+}
+
+void EditorMainWindow::SelectAll(wxCommandEvent& event)
+{
+    for (auto element : editorParams->elements)
+    {
+        BlockElement* block = dynamic_cast<BlockElement*>(element);
+        if (block)
+        {
+            block->selected = true;
+        }
+    }
+    Refresh();
+}
+
+void EditorMainWindow::SelectType(wxCommandEvent& event)
+{
+    int amountSelected = 0;
+    for (auto element : editorParams->elements)
+    {
+        BlockElement* block = dynamic_cast<BlockElement*>(element);
+        if (block)
+        {
+            block->selected = (block->blockType == editorParams->currentBlockType);
+            if (block->selected)
+            {
+                amountSelected++;
+            }
+        }
+    }
+    Refresh();
+    if (amountSelected > 0)
+    {
+        SetStatusText(wxString::Format("%d blocks of type %d selected.", amountSelected, editorParams->currentBlockType));
+    }
+    else
+    {
+        SetStatusText("No blocks of the selected type found.");
     }
 }
 
