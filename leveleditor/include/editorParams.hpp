@@ -20,6 +20,8 @@ class EditorEngineParams {
         EditorTool currentTool = TOOL_SELECT;
         int currentUndoIndex = 0;
 
+        std::vector<EditorElement*> selectedElements;
+
         std::vector<std::vector<EditorElement*>> undoStack;
 
         std::vector<EditorElement*> elements;

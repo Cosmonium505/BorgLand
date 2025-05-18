@@ -223,16 +223,15 @@ void EditorMainWindow::OnLevelLoad(wxCommandEvent& event)
 
 void EditorMainWindow::SelectAll(wxCommandEvent& event)
 {
-    int amountSelected = 0;
     for (auto element : editorParams->elements)
     {
         BlockElement* block = dynamic_cast<BlockElement*>(element);
         if (block)
         {
-            block->selected = true;
-            amountSelected++;
+            editorParams->selectedElements.push_back(block);
         }
     }
+    int amountSelected = 0;
     if (amountSelected > 0)
     {
         SetStatusText(wxString::Format("%d blocks selected.", amountSelected));
@@ -246,20 +245,15 @@ void EditorMainWindow::SelectAll(wxCommandEvent& event)
 
 void EditorMainWindow::SelectType(wxCommandEvent& event)
 {
-    int amountSelected = 0;
     for (auto element : editorParams->elements)
     {
         BlockElement* block = dynamic_cast<BlockElement*>(element);
-        if (block)
+        if (block && block->blockType == editorParams->currentBlockType)
         {
-            block->selected = (block->blockType == editorParams->currentBlockType);
-            if (block->selected)
-            {
-                amountSelected++;
-            }
+            editorParams->selectedElements.push_back(block);
         }
     }
-    Refresh();
+    int amountSelected = editorParams->selectedElements.size();
     if (amountSelected > 0)
     {
         SetStatusText(wxString::Format("%d blocks of type %d selected.", amountSelected, editorParams->currentBlockType));

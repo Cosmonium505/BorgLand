@@ -15,7 +15,6 @@ class EditorElement {
         float y = 0.0f;
         float width = 50.0f;
         float height = 50.0f;
-        bool selected = false;
 
         virtual void render(wxPaintDC& dc) {
             

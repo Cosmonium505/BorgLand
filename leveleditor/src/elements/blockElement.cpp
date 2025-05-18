@@ -4,6 +4,15 @@
 #include "editorParams.hpp"
 
 void BlockElement::render(wxPaintDC& dc) {
+    bool selected = false;
+
+    for (EditorElement* element : editorParams->selectedElements) {
+        if (element == this) {
+            selected = true;
+            break;
+        }
+    }
+
     if (selected) {
         dc.SetPen(wxPen(wxColor(255, 128, 0), 2));
     } else {

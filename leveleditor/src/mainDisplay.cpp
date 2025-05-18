@@ -104,7 +104,6 @@ void GameEditorDisplay::OnLeftUp(wxMouseEvent& event)
 
                 BlockElement* gridBlock = new BlockElement(gridX, gridY, editorParams->gridSize, editorParams->gridSize);
                 gridBlock->blockType = editorParams->currentBlockType;
-                gridBlock->selected = false;
                 editorParams->elements.push_back((EditorElement*)gridBlock);
         }
         if (editorParams->currentTool == EditorTool::TOOL_SELECT && mouseDeltaDist < 5) {
@@ -117,15 +116,15 @@ void GameEditorDisplay::OnLeftUp(wxMouseEvent& event)
                 BlockElement* block = dynamic_cast<BlockElement*>(element);
                 if (block && block->x == gridX && block->y == gridY) {
                     if (isShiftDown) {
-                        block->selected = !block->selected;
-                    } else {
-                        for (auto element : editorParams->elements) {
-                            BlockElement* block1 = dynamic_cast<BlockElement*>(element);
-                            if (block1) {
-                                block1->selected = false;
-                            }
+                        auto it = std::find(editorParams->selectedElements.begin(), editorParams->selectedElements.end(), block);
+                        if (it != editorParams->selectedElements.end()) {
+                            editorParams->selectedElements.erase(it);
+                        } else {
+                            editorParams->selectedElements.push_back(block);
                         }
-                        block->selected = true;
+                    } else {
+                        editorParams->selectedElements.clear();
+                        editorParams->selectedElements.push_back(block);
                     }
                     isSelecting = true;
                     break;
@@ -133,12 +132,7 @@ void GameEditorDisplay::OnLeftUp(wxMouseEvent& event)
             }
             
             if (!isSelecting) {
-                for (auto element : editorParams->elements) {
-                    BlockElement* block = dynamic_cast<BlockElement*>(element);
-                    if (block) {
-                        block->selected = false;
-                    }
-                }
+                editorParams->selectedElements.clear();
             }
         }
     }
@@ -148,12 +142,7 @@ void GameEditorDisplay::OnLeftUp(wxMouseEvent& event)
 
 void GameEditorDisplay::OnUpdate()
 {
-    int objectsSelected = 0;
-    for (EditorElement* element : editorParams->elements) {
-        if (element->selected) {
-            objectsSelected++;
-        }
-    }
+    int objectsSelected = editorParams->selectedElements.size();
     EditorMainWindow* mainWindow = dynamic_cast<EditorMainWindow*>(wxTheApp->GetTopWindow());
     if (mainWindow) {
         mainWindow->SetStatusText(wxString::Format("Objects Selected: %d", objectsSelected));
@@ -192,7 +181,6 @@ void GameEditorDisplay::OnDrag(wxMouseEvent& event)
         if (!blockExists) {
             BlockElement* block = new BlockElement(gridX, gridY, editorParams->gridSize, editorParams->gridSize);
             block->blockType = editorParams->currentBlockType;
-            block->selected = false;
             editorParams->elements.push_back((EditorElement*)block);
         }
 
@@ -233,24 +221,28 @@ void GameEditorDisplay::OnScroll(wxMouseEvent& event)
 void GameEditorDisplay::MoveSelLeft(wxCommandEvent& event) {
     SetUndoWaypoint();
     bool shiftDown = wxGetKeyState(WXK_SHIFT);
+    std::vector<EditorElement*> newSelectedElements;
     
-    for (auto element : editorParams->elements) {
+    for (auto element: editorParams->selectedElements) {
         BlockElement* block = dynamic_cast<BlockElement*>(element);
-        if (block && block->selected) {
-            if (shiftDown) {
-                BlockElement* newBlock = new BlockElement(block->x - editorParams->gridSize, block->y, 
-                                                         block->width, block->height);
-                newBlock->blockType = block->blockType;
-
-                for (EditorElement* existingElement : editorParams->elements) {
-                    existingElement->selected = false;
-                }
-                newBlock->selected = true;
-                editorParams->elements.push_back(newBlock);
-            } else {
-                block->x -= editorParams->gridSize;
+        if (shiftDown) {
+            BlockElement* newBlock = new BlockElement(block->x - editorParams->gridSize, block->y, 
+                                                     block->width, block->height);
+            newSelectedElements.push_back(newBlock);  
+            editorParams->elements.push_back(newBlock);                     
+        }
+        else {
+            block->x -= editorParams->gridSize;
+        
+        }
+    }
+    if (shiftDown) {
+        editorParams->selectedElements.clear();
+        for (auto element : newSelectedElements) {
+            BlockElement* block = dynamic_cast<BlockElement*>(element);
+            if (block) {
+                editorParams->selectedElements.push_back(block);
             }
-            break;
         }
     }
     Refresh();
@@ -259,23 +251,28 @@ void GameEditorDisplay::MoveSelLeft(wxCommandEvent& event) {
 void GameEditorDisplay::MoveSelRight(wxCommandEvent& event) {
     SetUndoWaypoint();
     bool shiftDown = wxGetKeyState(WXK_SHIFT);
+    std::vector<EditorElement*> newSelectedElements;
     
-    for (auto element : editorParams->elements) {
+    for (auto element: editorParams->selectedElements) {
         BlockElement* block = dynamic_cast<BlockElement*>(element);
-        if (block && block->selected) {
-            if (shiftDown) {
-                BlockElement* newBlock = new BlockElement(block->x + editorParams->gridSize, block->y, 
-                                                         block->width, block->height);
-                newBlock->blockType = block->blockType;
-                for (EditorElement* existingElement : editorParams->elements) {
-                    existingElement->selected = false;
-                }
-                newBlock->selected = true;
-                editorParams->elements.push_back(newBlock);
-            } else {
-                block->x += editorParams->gridSize;
+        if (shiftDown) {
+            BlockElement* newBlock = new BlockElement(block->x + editorParams->gridSize, block->y, 
+                                                     block->width, block->height);
+            newSelectedElements.push_back(newBlock);  
+            editorParams->elements.push_back(newBlock);                     
+        }
+        else {
+            block->x += editorParams->gridSize;
+        
+        }
+    }
+    if (shiftDown) {
+        editorParams->selectedElements.clear();
+        for (auto element : newSelectedElements) {
+            BlockElement* block = dynamic_cast<BlockElement*>(element);
+            if (block) {
+                editorParams->selectedElements.push_back(block);
             }
-            break;
         }
     }
     Refresh();
@@ -284,23 +281,28 @@ void GameEditorDisplay::MoveSelRight(wxCommandEvent& event) {
 void GameEditorDisplay::MoveSelUp(wxCommandEvent& event) {
     SetUndoWaypoint();
     bool shiftDown = wxGetKeyState(WXK_SHIFT);
+    std::vector<EditorElement*> newSelectedElements;
     
-    for (auto element : editorParams->elements) {
+    for (auto element: editorParams->selectedElements) {
         BlockElement* block = dynamic_cast<BlockElement*>(element);
-        if (block && block->selected) {
-            if (shiftDown) {
-                BlockElement* newBlock = new BlockElement(block->x, block->y - editorParams->gridSize, 
-                                                         block->width, block->height);
-                newBlock->blockType = block->blockType;
-                for (EditorElement* existingElement : editorParams->elements) {
-                    existingElement->selected = false;
-                }
-                newBlock->selected = true;
-                editorParams->elements.push_back(newBlock);
-            } else {
-                block->y -= editorParams->gridSize;
+        if (shiftDown) {
+            BlockElement* newBlock = new BlockElement(block->x, block->y - editorParams->gridSize, 
+                                                     block->width, block->height);
+            newSelectedElements.push_back(newBlock);  
+            editorParams->elements.push_back(newBlock);                     
+        }
+        else {
+            block->y -= editorParams->gridSize;
+        
+        }
+    }
+    if (shiftDown) {
+        editorParams->selectedElements.clear();
+        for (auto element : newSelectedElements) {
+            BlockElement* block = dynamic_cast<BlockElement*>(element);
+            if (block) {
+                editorParams->selectedElements.push_back(block);
             }
-            break;
         }
     }
     Refresh();
@@ -318,7 +320,6 @@ void SetUndoWaypoint() {
         if (block) {
             BlockElement* newBlock = new BlockElement(block->x, block->y, block->width, block->height);
             newBlock->blockType = block->blockType;
-            newBlock->selected = block->selected;
             copyElements.push_back(newBlock);
         }
     }
@@ -329,48 +330,52 @@ void SetUndoWaypoint() {
 void GameEditorDisplay::MoveSelDown(wxCommandEvent& event) {
     SetUndoWaypoint();
     bool shiftDown = wxGetKeyState(WXK_SHIFT);
+    std::vector<EditorElement*> newSelectedElements;
     
-    for (auto element : editorParams->elements) {
+    for (auto element: editorParams->selectedElements) {
         BlockElement* block = dynamic_cast<BlockElement*>(element);
-        if (block && block->selected) {
-            if (shiftDown) {
-                BlockElement* newBlock = new BlockElement(block->x, block->y + editorParams->gridSize, 
-                                                         block->width, block->height);
-                newBlock->blockType = block->blockType;
-                for (EditorElement* existingElement : editorParams->elements) {
-                    existingElement->selected = false;
-                }
-                newBlock->selected = true;
-                editorParams->elements.push_back(newBlock);
-            } else {
-                block->y += editorParams->gridSize;
+        if (shiftDown) {
+            BlockElement* newBlock = new BlockElement(block->x, block->y + editorParams->gridSize, 
+                                                     block->width, block->height);
+            newSelectedElements.push_back(newBlock);  
+            editorParams->elements.push_back(newBlock);                     
+        }
+        else {
+            block->y += editorParams->gridSize;
+        
+        }
+    }
+    if (shiftDown) {
+        editorParams->selectedElements.clear();
+        for (auto element : newSelectedElements) {
+            BlockElement* block = dynamic_cast<BlockElement*>(element);
+            if (block) {
+                editorParams->selectedElements.push_back(block);
             }
-            break;
         }
     }
     Refresh();
 }
 
 void GameEditorDisplay::MoveToSelected(wxCommandEvent& event) {
-    for (auto element : editorParams->elements) {
+    for (auto element : editorParams->selectedElements) {
         BlockElement* block = dynamic_cast<BlockElement*>(element);
-        if (block && block->selected) {
-            float blockCenterX = block->x + block->width / 2;
-            float blockCenterY = block->y + block->height / 2;
-            
-            editorParams->cameraPos[0] = (-(blockCenterX));
-            editorParams->cameraPos[1] = (-(blockCenterY));
-            break;
-        }
+        float blockCenterX = block->x + block->width / 2;
+        float blockCenterY = block->y + block->height / 2;
+        
+        editorParams->cameraPos[0] = (-(blockCenterX));
+        editorParams->cameraPos[1] = (-(blockCenterY));
+        break;
     }
     Refresh();
 }
 
 void GameEditorDisplay::OnKeyPress(wxKeyEvent& event) {
     if (event.GetKeyCode() == WXK_DELETE) {
-        for (auto it = editorParams->elements.begin(); it != editorParams->elements.end(); ) {
+        SetUndoWaypoint();
+        for (auto it = editorParams->selectedElements.begin(); it != editorParams->selectedElements.end(); ) {
             BlockElement* block = dynamic_cast<BlockElement*>(*it);
-            if (block && block->selected) {
+            if (block) {
                 it = editorParams->elements.erase(it);
             } else {
                 ++it;
