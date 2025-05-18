@@ -10,9 +10,12 @@ int saveLevel(const std::string& filename) {
         return -1; // Error opening file
     }
     int numElements = editorParams->elements.size();
-    outFile.write(reinterpret_cast<const char*>(&numElements), sizeof(numElements));
+    outFile.write(reinterpret_cast<const char*>(&numElements), sizeof(numElements));\
+
     for (EditorElement* element : editorParams->elements) {
+        std::cout << "before: " << outFile.tellp() << std::endl;
         element->save(outFile);
+        std::cout << "after: " << outFile.tellp() << std::endl;
     }
     outFile.close();
     return 0;
@@ -29,13 +32,13 @@ int loadLevel(const std::string& filename) {
         EditorElementType type;
         inFile.read(reinterpret_cast<char*>(&type), sizeof(type));
         EditorElement* element = nullptr;
-        printf("Loading element of type %d\n", static_cast<int>(type));
         if (type == EditorElementType::BLOCK) {
             element = new BlockElement(0, 0, 0, 0);
         }
         if (element) {
+            std::cout << "before: " << inFile.tellg() << std::endl;
             element->load(inFile);
-            printf("Loaded element of type %d at (%f, %f)\n", static_cast<int>(type), element->x, element->y);
+            std::cout << "after: " << inFile.tellg() << std::endl;
             editorParams->elements.push_back(element);
         }
     }
