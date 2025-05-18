@@ -352,57 +352,13 @@ void GameEditorDisplay::MoveSelDown(wxCommandEvent& event) {
 }
 
 void GameEditorDisplay::MoveToSelected(wxCommandEvent& event) {
-    float averageX = 0;
-    float averageY = 0;
-    float boundingBoxX = 0;
-    float boundingBoxY = 0;
-
     for (auto element : editorParams->elements) {
         BlockElement* block = dynamic_cast<BlockElement*>(element);
         if (block && block->selected) {
-            averageX += block->x;
-            averageY += block->y;
-            boundingBoxX = std::max(boundingBoxX, block->x + block->width);
-            boundingBoxY = std::max(boundingBoxY, block->y + block->height);
+            editorParams->cameraPos[0] = block->x - (GetSize().GetWidth() / 2) / editorParams->zoom;
+            editorParams->cameraPos[1] = block->y - (GetSize().GetHeight() / 2) / editorParams->zoom;
+            break;
         }
-    }
-
-    float screenMiddleX = GetSize().GetWidth() / 2.0f;
-    float screenMiddleY = GetSize().GetHeight() / 2.0f;
-
-
-    int selectedCount = 0;
-    float minX = 0xfffffff, minY = 0xfffffff;
-    float maxX = -0xfffffff, maxY = -0xfffffff;
-
-    for (auto element : editorParams->elements) {
-        BlockElement* block = dynamic_cast<BlockElement*>(element);
-        if (block && block->selected) {
-            selectedCount++;
-            minX = std::min(minX, block->x);
-            minY = std::min(minY, block->y);
-            maxX = std::max(maxX, block->x + block->width);
-            maxY = std::max(maxY, block->y + block->height);
-        }
-    }
-
-    if (selectedCount > 0) {
-        float centerX = (minX + maxX) / 2.0f;
-        float centerY = (minY + maxY) / 2.0f;
-
-        float width = maxX - minX;
-        float height = maxY - minY;
-
-        width *= 1.2f;
-        height *= 1.2f;
-        
-        float zoomX = GetSize().GetWidth() / width;
-        float zoomY = GetSize().GetHeight() / height;
-        editorParams->zoom = std::min(zoomX, zoomY);
-        editorParams->zoom = std::max(0.1f, std::min(5.0f, editorParams->zoom));
-        
-        editorParams->cameraPos[0] = centerX - (screenMiddleX / editorParams->zoom);
-        editorParams->cameraPos[1] = centerY - (screenMiddleY / editorParams->zoom);
     }
     Refresh();
 }
