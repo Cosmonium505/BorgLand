@@ -21,7 +21,7 @@ int saveLevel(const std::string& filename) {
 }
 
 int loadLevel(const std::string& filename) {
-    std::ifstream inFile(filename, std::ios::binary | std::ios::trunc);
+    std::ifstream inFile(filename, std::ios::binary);
     if (!inFile) {
         return -1;
     }
