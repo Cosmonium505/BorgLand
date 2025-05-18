@@ -220,13 +220,23 @@ void EditorMainWindow::OnLevelLoad(wxCommandEvent& event)
 
 void EditorMainWindow::SelectAll(wxCommandEvent& event)
 {
+    int amountSelected = 0;
     for (auto element : editorParams->elements)
     {
         BlockElement* block = dynamic_cast<BlockElement*>(element);
         if (block)
         {
             block->selected = true;
+            amountSelected++;
         }
+    }
+    if (amountSelected > 0)
+    {
+        SetStatusText(wxString::Format("%d blocks selected.", amountSelected));
+    }
+    else
+    {
+        SetStatusText("No blocks found.");
     }
     Refresh();
 }
