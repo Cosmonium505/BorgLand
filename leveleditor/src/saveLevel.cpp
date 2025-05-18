@@ -52,7 +52,11 @@ int exportLevel(const std::string& filename) {
     int numElements = editorParams->elements.size();
     outFile.write(reinterpret_cast<const char*>(&numElements), sizeof(numElements));
     for (EditorElement* element : editorParams->elements) {
-        outFile.write(reinterpret_cast<const char*>(&element->type), sizeof(element->type));
+        if (element->type != EditorElementType::BLOCK) {
+            continue;
+        }
+        BlockElement* blockElement = static_cast<BlockElement*>(element);
+        outFile.write(reinterpret_cast<const char*>(&blockElement->blockType), sizeof(element->type));
         outFile.write(reinterpret_cast<const char*>(&element->x), sizeof(element->x));
         outFile.write(reinterpret_cast<const char*>(&element->y), sizeof(element->y));
     }

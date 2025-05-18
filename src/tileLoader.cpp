@@ -39,6 +39,7 @@ std::vector<Tile> loadTilemapFromFile(const std::string& filename) {
         file.read(reinterpret_cast<char*>(&tile.type), sizeof(int));
         file.read(reinterpret_cast<char*>(&tile.x), sizeof(float));
         file.read(reinterpret_cast<char*>(&tile.y), sizeof(float));
+        tile.type++;
         tiles.push_back(tile);
     }
     file.close();
