@@ -26,6 +26,7 @@ add_executable(LevelEditor
     src/mainDisplay.cpp
     src/blockSelector.cpp
     src/toolDisplay.cpp
+    src/saveLevel.cpp
     ${LEVEL_EDITOR_SOURCE_EXTERN}
 )
 

@@ -12,4 +12,6 @@ class BlockElement : public EditorElement {
         int blockType = 0;
 
         virtual void render(wxPaintDC& dc) override;
+        virtual void save(std::ofstream& out) override;
+        virtual void load(std::ifstream& in) override;
 };

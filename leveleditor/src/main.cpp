@@ -4,9 +4,11 @@
 #include "editorParams.hpp"
 #include "blockElement.hpp"
 #include <wx/splitter.h>
+#include <string>
 
 #include "ui/blockSelector.hpp"
 #include "ui/toolDisplay.hpp"
+#include "saveLevel.hpp"
 
 EditorEngineParams *editorParams = new EditorEngineParams();
 
@@ -26,6 +28,9 @@ public:
     void OnZoomIn(wxCommandEvent& event);
     void OnZoomOut(wxCommandEvent& event);
     void OnResetZoom(wxCommandEvent& event);
+
+    void OnLevelSave(wxCommandEvent& event);
+    void OnLevelLoad(wxCommandEvent& event);
     
 private:
     wxDECLARE_EVENT_TABLE();
@@ -42,6 +47,9 @@ wxBEGIN_EVENT_TABLE(EditorMainWindow, wxFrame)
     EVT_MENU(wxID_HIGHEST + 6, GameEditorDisplay::MoveSelRight)
     EVT_MENU(wxID_HIGHEST + 7, GameEditorDisplay::MoveSelUp)
     EVT_MENU(wxID_HIGHEST + 8, GameEditorDisplay::MoveSelDown)
+
+    EVT_MENU(wxID_SAVE, EditorMainWindow::OnLevelSave)
+    EVT_MENU(wxID_OPEN, EditorMainWindow::OnLevelLoad)
     EVT_PAINT(GameEditorDisplay::OnPaint)
 wxEND_EVENT_TABLE()
 
@@ -115,9 +123,6 @@ EditorMainWindow::EditorMainWindow(const wxString& title)
     BlockSelector* blockSelector = new BlockSelector(rightPanel, GetId(), 
                               wxDefaultPosition, wxSize(200, 600), 
                               wxLB_SINGLE);
-    
-    EditorElement* block = new BlockElement(100, 100, 50, 50);
-    editorParams->elements.push_back(block);
 
     GameEditorDisplay* editorDisplay = new GameEditorDisplay(leftPanel);
     
@@ -168,6 +173,48 @@ void EditorMainWindow::OnResetZoom(wxCommandEvent& event)
     Refresh();
 }
 
+void EditorMainWindow::OnLevelSave(wxCommandEvent& event)
+{
+    wxFileDialog saveFileDialog(this, "Save Level", "", "", 
+        "Level Files (*.lvl)|*.lvl", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+    
+    if (saveFileDialog.ShowModal() == wxID_OK)
+    {
+        wxString path = saveFileDialog.GetPath();
+        std::string filename = path.ToStdString();
+        if (saveLevel(filename) == 0)
+        {
+            SetStatusText("Level saved successfully.");
+        }
+        else
+        {
+            wxMessageBox("Failed to save level.", "Error", wxOK | wxICON_ERROR);
+            SetStatusText("Level save failed.");
+        }
+    }
+}
+
+void EditorMainWindow::OnLevelLoad(wxCommandEvent& event)
+{
+    wxFileDialog openFileDialog(this, "Open Level", "", "", 
+        "Level Files (*.lvl)|*.lvl", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+    
+    if (openFileDialog.ShowModal() == wxID_OK)
+    {
+        wxString path = openFileDialog.GetPath();
+        std::string filename = path.ToStdString();
+        if (loadLevel(filename) == 0)
+        {
+            SetStatusText("Level loaded successfully.");
+            Refresh();
+        }
+        else
+        {
+            wxMessageBox("Failed to load level.", "Error", wxOK | wxICON_ERROR);
+            SetStatusText("Level load failed.");
+        }
+    }
+}
 
 
 int main(int argc, char **argv)

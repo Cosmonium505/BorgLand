@@ -1,6 +1,7 @@
 #pragma once
 
 #include <wx/wx.h>
+#include <fstream>
 
 enum class EditorElementType {
     NONE,
@@ -19,6 +20,9 @@ class EditorElement {
         virtual void render(wxPaintDC& dc) {
             
         }
+
+        virtual void save(std::ofstream& out);
+        virtual void load(std::ifstream& in);
 
         virtual float getX();
         virtual float getY();
