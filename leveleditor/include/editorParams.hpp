@@ -6,7 +6,8 @@
 enum EditorTool {
     TOOL_SELECT,
     TOOL_DRAW,
-    TOOL_ERASE
+    TOOL_ERASE,
+    TOOL_RECTANGLE_SELECT
 };
 
 class EditorEngineParams {
@@ -19,6 +20,9 @@ class EditorEngineParams {
         int currentBlockType = 0;
         EditorTool currentTool = TOOL_SELECT;
         int currentUndoIndex = 0;
+        wxPoint rectangleStart;
+        wxPoint rectangleEnd;
+        bool rectDragging = false;
 
         std::vector<EditorElement*> selectedElements;
 

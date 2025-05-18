@@ -59,6 +59,13 @@ void GameEditorDisplay::render(wxPaintDC& dc)
     for (EditorElement* element : editorParams->elements) {
         element->render(dc);
     }
+    if (editorParams->rectDragging) {
+        dc.SetPen(wxPen(wxColor(255, 128, 0), 2));
+        dc.SetBrush(wxBrush(wxColor(255, 128, 0, 50)));
+        dc.DrawRectangle(editorParams->rectangleStart.x, editorParams->rectangleStart.y,
+                        editorParams->rectangleEnd.x - editorParams->rectangleStart.x,
+                        editorParams->rectangleEnd.y - editorParams->rectangleStart.y);
+    }
 }
 
 
@@ -74,6 +81,11 @@ void GameEditorDisplay::update()
 void GameEditorDisplay::OnLeftDown(wxMouseEvent& event)
 {
     if (event.LeftIsDown()) {
+        if (editorParams->currentTool == EditorTool::TOOL_RECTANGLE_SELECT) {
+            editorParams->rectangleStart = event.GetPosition();
+            editorParams->rectangleEnd = event.GetPosition();
+            editorParams->rectDragging = true;
+        }
         dragging = true;
         dragStartPos = event.GetPosition();
         dragInitPos = event.GetPosition();
@@ -93,6 +105,34 @@ void GameEditorDisplay::OnLeftUp(wxMouseEvent& event)
         dragging = false;
         ReleaseMouse();
         bool isSelecting = false;
+        if (editorParams->rectDragging) {
+            editorParams->selectedElements.clear();
+            editorParams->rectangleEnd = event.GetPosition();
+            editorParams->rectDragging = false;
+            wxPoint start = editorParams->rectangleStart;
+            wxPoint end = editorParams->rectangleEnd;
+
+            float startX = (start.x + editorParams->cameraPos[0]) / editorParams->zoom;
+            float startY = (start.y + editorParams->cameraPos[1]) / editorParams->zoom;
+            float endX = (end.x + editorParams->cameraPos[0]) / editorParams->zoom;
+            float endY = (end.y + editorParams->cameraPos[1]) / editorParams->zoom;
+
+            if (startX > endX) {
+                std::swap(startX, endX);
+            }
+
+            if (startY > endY) {
+                std::swap(startY, endY);
+            }
+
+            for (auto element : editorParams->elements) {
+                BlockElement* block = dynamic_cast<BlockElement*>(element);
+                if (block && block->x >= startX && block->x <= endX &&
+                    block->y >= startY && block->y <= endY) {
+                    editorParams->selectedElements.push_back(block);
+                }
+            }
+        }
 
         bool isShiftDown = wxGetKeyState(WXK_SHIFT);
         float mouseDeltaDist = sqrt(pow(event.GetPosition().x - dragInitPos.x, 2) + pow(event.GetPosition().y - dragInitPos.y, 2));
@@ -202,8 +242,11 @@ void GameEditorDisplay::OnDrag(wxMouseEvent& event)
                 ++it;
             }
         }
-
         dragStartPos = currentPos;
+        Refresh();
+    }
+    if (editorParams->rectDragging) {
+        editorParams->rectangleEnd = event.GetPosition();
         Refresh();
     }
 }

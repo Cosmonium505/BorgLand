@@ -10,8 +10,5 @@ public:
     void OnSelect(wxCommandEvent& event);
     void OnDeselect(wxCommandEvent& event);
 
-    void MenuToolSelect(wxCommandEvent& event);
-    void MenuToolDraw(wxCommandEvent& event);
-    void MenuToolErase(wxCommandEvent& event);
     void UpdateToolState();
 };
