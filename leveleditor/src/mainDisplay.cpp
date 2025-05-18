@@ -373,12 +373,10 @@ void GameEditorDisplay::MoveToSelected(wxCommandEvent& event) {
 void GameEditorDisplay::OnKeyPress(wxKeyEvent& event) {
     if (event.GetKeyCode() == WXK_DELETE) {
         SetUndoWaypoint();
-        for (auto it = editorParams->selectedElements.begin(); it != editorParams->selectedElements.end(); ) {
-            BlockElement* block = dynamic_cast<BlockElement*>(*it);
-            if (block) {
-                it = editorParams->elements.erase(it);
-            } else {
-                ++it;
+        for (EditorElement* element : editorParams->selectedElements) {
+            auto it = std::find(editorParams->elements.begin(), editorParams->elements.end(), element);
+            if (it != editorParams->elements.end()) {
+                editorParams->elements.erase(it);
             }
         }
         Refresh();

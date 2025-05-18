@@ -231,7 +231,7 @@ void EditorMainWindow::SelectAll(wxCommandEvent& event)
             editorParams->selectedElements.push_back(block);
         }
     }
-    int amountSelected = 0;
+    int amountSelected = editorParams->selectedElements.size();
     if (amountSelected > 0)
     {
         SetStatusText(wxString::Format("%d blocks selected.", amountSelected));
