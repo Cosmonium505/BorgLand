@@ -355,8 +355,11 @@ void GameEditorDisplay::MoveToSelected(wxCommandEvent& event) {
     for (auto element : editorParams->elements) {
         BlockElement* block = dynamic_cast<BlockElement*>(element);
         if (block && block->selected) {
-            editorParams->cameraPos[0] = block->x - (GetSize().GetWidth() / 2) / editorParams->zoom;
-            editorParams->cameraPos[1] = block->y - (GetSize().GetHeight() / 2) / editorParams->zoom;
+            float blockCenterX = block->x + block->width / 2;
+            float blockCenterY = block->y + block->height / 2;
+            
+            editorParams->cameraPos[0] = (-(blockCenterX));
+            editorParams->cameraPos[1] = (-(blockCenterY));
             break;
         }
     }
