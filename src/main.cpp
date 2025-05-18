@@ -84,12 +84,6 @@ int main() {
             if (event.type == SDL_QUIT) {
                 running = false;
             }
-            else if (event.type == SDL_CONTROLLERDEVICEREMOVED) {
-                std::cout << "Controller was disconnected." << std::endl;
-                if (SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(engineParams.controller)) == event.cdevice.which) {
-                    engineParams.controller = nullptr;
-                }
-            }
             else {
                 events.push_back(event);
             }
@@ -121,6 +115,7 @@ int main() {
             SDL_Delay(1000 / engineParams.fpsLimiter);
         }
     }
+    SDL_GameControllerClose(engineParams.controller);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

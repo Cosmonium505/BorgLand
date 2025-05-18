@@ -4,6 +4,10 @@
 
 void handleController() {
 	if (engineParams.controller != nullptr) {
+		if (!SDL_GameControllerGetAttached(engineParams.controller)) {
+			std::cout << "Controller disconnected." << std::endl;
+			engineParams.controller = nullptr;
+		}
 		return;
 	}
 	for (int i = 0; i < SDL_NumJoysticks(); i++) {
