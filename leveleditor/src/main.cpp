@@ -63,6 +63,8 @@ wxBEGIN_EVENT_TABLE(EditorMainWindow, wxFrame)
     EVT_MENU(wxID_OPEN, EditorMainWindow::OnLevelLoad)
     EVT_MENU(wxID_FILE, EditorMainWindow::OnLevelExport)
     EVT_MENU(wxID_NEW, EditorMainWindow::NewLevel)
+    EVT_MENU(wxID_UNDO, GameEditorDisplay::OnUndo)
+    EVT_MENU(wxID_REDO, GameEditorDisplay::OnRedo)
     EVT_PAINT(GameEditorDisplay::OnPaint)
 wxEND_EVENT_TABLE()
 
@@ -111,6 +113,9 @@ EditorMainWindow::EditorMainWindow(const wxString& title)
     menuEdit->Append(ID_MOVE_RIGHT, "Move Right");
     menuEdit->Append(ID_MOVE_UP, "Move Up");
     menuEdit->Append(ID_MOVE_DOWN, "Move Down");
+    menuEdit->AppendSeparator();
+    menuEdit->Append(wxID_UNDO, "Undo\tCtrl-Z");
+    menuEdit->Append(wxID_REDO, "Redo\tCtrl-Shift-Z");
     
     wxMenuBar *menuBar = new wxMenuBar();
     menuBar->Append(menuFile, "&File");

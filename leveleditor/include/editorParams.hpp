@@ -18,10 +18,14 @@ class EditorEngineParams {
         bool gridEnabled = true;
         int currentBlockType = 0;
         EditorTool currentTool = TOOL_SELECT;
+        int currentUndoIndex = 0;
+
+        std::vector<std::vector<EditorElement*>> undoStack;
 
         std::vector<EditorElement*> elements;
 };
 
 extern EditorEngineParams *editorParams;
 
+void SetUndoWaypoint();
 float roundToGrid(float value);

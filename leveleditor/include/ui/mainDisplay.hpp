@@ -27,6 +27,9 @@ public:
     void MoveSelUp(wxCommandEvent& event);
     void MoveSelDown(wxCommandEvent& event);
 
+    void OnUndo(wxCommandEvent& event);
+    void OnRedo(wxCommandEvent& event);
+
     void OnKeyPress(wxKeyEvent& event);
 
 

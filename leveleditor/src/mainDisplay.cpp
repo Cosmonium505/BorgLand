@@ -22,6 +22,7 @@ GameEditorDisplay::GameEditorDisplay(wxWindow* parent)
     SetFocus();
     SetBackgroundStyle(wxBG_STYLE_PAINT);
     SetDoubleBuffered(true);
+    
 }
 
 GameEditorDisplay::~GameEditorDisplay()
@@ -71,6 +72,7 @@ void GameEditorDisplay::update()
 
 void GameEditorDisplay::OnLeftDown(wxMouseEvent& event)
 {
+    SetUndoWaypoint();
     if (event.LeftIsDown()) {
         dragging = true;
         dragStartPos = event.GetPosition();
@@ -272,6 +274,26 @@ void GameEditorDisplay::MoveSelUp(wxCommandEvent& event) {
     Refresh();
 }
 
+void SetUndoWaypoint() {
+    if (editorParams->currentUndoIndex < editorParams->undoStack.size() - 1 && editorParams->currentUndoIndex > 0) {
+        editorParams->undoStack.erase(editorParams->undoStack.begin() + editorParams->currentUndoIndex + 1, 
+                                    editorParams->undoStack.end());
+    }
+
+    std::vector<EditorElement*> copyElements;
+    for (auto element : editorParams->elements) {
+        BlockElement* block = dynamic_cast<BlockElement*>(element);
+        if (block) {
+            BlockElement* newBlock = new BlockElement(block->x, block->y, block->width, block->height);
+            newBlock->blockType = block->blockType;
+            newBlock->selected = block->selected;
+            copyElements.push_back(newBlock);
+        }
+    }
+    editorParams->undoStack.push_back(copyElements);
+    editorParams->currentUndoIndex++;
+}
+
 void GameEditorDisplay::MoveSelDown(wxCommandEvent& event) {
     bool shiftDown = wxGetKeyState(WXK_SHIFT);
     
@@ -323,5 +345,24 @@ void GameEditorDisplay::OnKeyPress(wxKeyEvent& event) {
     else if (event.GetKeyCode() == WXK_RIGHT || event.GetKeyCode() == 'D') {
         wxCommandEvent cmdEvent;
         MoveSelRight(cmdEvent);
+    }
+    else {
+        event.Skip();
+    }
+}
+
+void GameEditorDisplay::OnUndo(wxCommandEvent& event) {
+    if (editorParams->currentUndoIndex > 0) {
+        editorParams->currentUndoIndex--;
+        editorParams->elements = editorParams->undoStack[editorParams->currentUndoIndex];
+        Refresh();
+    }
+}
+
+void GameEditorDisplay::OnRedo(wxCommandEvent& event) {
+    if (editorParams->currentUndoIndex < editorParams->undoStack.size() - 1) {
+        editorParams->currentUndoIndex++;
+        editorParams->elements = editorParams->undoStack[editorParams->currentUndoIndex];
+        Refresh();
     }
 }
