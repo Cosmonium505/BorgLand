@@ -72,12 +72,14 @@ void GameEditorDisplay::update()
 
 void GameEditorDisplay::OnLeftDown(wxMouseEvent& event)
 {
-    SetUndoWaypoint();
     if (event.LeftIsDown()) {
         dragging = true;
         dragStartPos = event.GetPosition();
         dragInitPos = event.GetPosition();
         CaptureMouse();
+    }
+    if (editorParams->currentTool != EditorTool::TOOL_SELECT) {
+        SetUndoWaypoint();
     }
     SetFocus();
     Refresh();
@@ -202,6 +204,7 @@ void GameEditorDisplay::OnScroll(wxMouseEvent& event)
 }
 
 void GameEditorDisplay::MoveSelLeft(wxCommandEvent& event) {
+    SetUndoWaypoint();
     bool shiftDown = wxGetKeyState(WXK_SHIFT);
     
     for (auto element : editorParams->elements) {
@@ -227,6 +230,7 @@ void GameEditorDisplay::MoveSelLeft(wxCommandEvent& event) {
 }
 
 void GameEditorDisplay::MoveSelRight(wxCommandEvent& event) {
+    SetUndoWaypoint();
     bool shiftDown = wxGetKeyState(WXK_SHIFT);
     
     for (auto element : editorParams->elements) {
@@ -251,6 +255,7 @@ void GameEditorDisplay::MoveSelRight(wxCommandEvent& event) {
 }
 
 void GameEditorDisplay::MoveSelUp(wxCommandEvent& event) {
+    SetUndoWaypoint();
     bool shiftDown = wxGetKeyState(WXK_SHIFT);
     
     for (auto element : editorParams->elements) {
@@ -295,6 +300,7 @@ void SetUndoWaypoint() {
 }
 
 void GameEditorDisplay::MoveSelDown(wxCommandEvent& event) {
+    SetUndoWaypoint();
     bool shiftDown = wxGetKeyState(WXK_SHIFT);
     
     for (auto element : editorParams->elements) {
