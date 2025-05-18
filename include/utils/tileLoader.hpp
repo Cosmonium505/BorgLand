@@ -8,3 +8,4 @@ class Tile {
 };
 
 std::vector<Tile> convertBitmaskToTilemap(int* tilemap, int sizeX, int sizeY);
+std::vector<Tile> loadTilemapFromFile(const std::string& filename);
