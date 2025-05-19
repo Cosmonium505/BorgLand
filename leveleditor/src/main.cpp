@@ -112,6 +112,18 @@ EditorMainWindow::EditorMainWindow(const wxString& title)
                                 wxDefaultPosition, wxSize(800, 60), 
                                 wxTB_HORIZONTAL | wxTB_FLAT | wxTB_NODIVIDER);
     
+    
+    if (editorParams->blockAtlas.LoadFile("blocks.png", wxBITMAP_TYPE_PNG))
+    {
+        SetStatusText("Block atlas loaded successfully.");
+    }
+    else
+    {
+        SetStatusText("Failed to load block atlas.");
+        wxLogError("Failed to load block atlas.");
+        throw std::runtime_error("Failed to load block atlas.");
+    }
+
 
     wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
     topSizer->Add(toolSelector, 1, wxEXPAND);

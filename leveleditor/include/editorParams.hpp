@@ -24,6 +24,8 @@ class EditorEngineParams {
         wxPoint rectangleEnd;
         bool rectDragging = false;
 
+        wxImage blockAtlas;
+
         std::vector<EditorElement*> selectedElements;
 
         std::vector<std::vector<EditorElement*>> undoStack;
