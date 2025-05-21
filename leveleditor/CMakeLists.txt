@@ -6,6 +6,10 @@ if (UNIX)
     set(CMAKE_TOOLCHAIN_FILE "$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake")
 endif()
 
+if (APPLE)
+    include_directories(/opt/homebrew/include)
+endif()
+
 set(CMAKE_CXX_STANDARD 20)
 
 # Find wxWidgets
