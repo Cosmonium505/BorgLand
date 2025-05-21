@@ -17,10 +17,10 @@ find_package(wxWidgets REQUIRED COMPONENTS core base aui adv)
 include(${wxWidgets_USE_FILE})
 
 include_directories(include)
-include_directories(../include)
+include_directories(../../include)
 
 set(LEVEL_EDITOR_SOURCE_EXTERN
-    ../src/tileLoader.cpp
+    ../../src/tileLoader.cpp
     src/elements/blockElement.cpp
     src/elements/editorElement.cpp
 )
