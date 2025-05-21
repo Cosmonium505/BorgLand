@@ -1,5 +1,6 @@
 #include "blockElement.hpp"
 #include <wx/wx.h>
+#include <algorithm>
 
 #include "editorParams.hpp"
 
@@ -9,7 +10,13 @@ void BlockElement::render(wxPaintDC& dc) {
     wxImage image = editorParams->blockAtlas.GetSubImage(wxRect(atlasX, atlasY, 24, 24));
     wxImage scaledImage = image.Scale(getWidth(), getHeight(), wxIMAGE_QUALITY_NEAREST);
     wxBitmap bitmap(scaledImage);
+
     dc.DrawBitmap(bitmap, getX(), getY(), true);
+    if (std::find(editorParams->selectedElements.begin(), editorParams->selectedElements.end(), this) != editorParams->selectedElements.end()) {
+        wxBrush brush(wxColor(255, 0, 0, 128));
+        dc.SetBrush(brush);
+        dc.DrawRectangle(getX(), getY(), getWidth(), getHeight());
+    }
 
 }
 
