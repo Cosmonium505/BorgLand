@@ -4,30 +4,13 @@
 #include "editorParams.hpp"
 
 void BlockElement::render(wxPaintDC& dc) {
-    bool selected = false;
+    int atlasX = (blockType % 8) * 24;
+    int atlasY = floor(blockType / 8) * 24;
+    wxImage image = editorParams->blockAtlas.GetSubImage(wxRect(atlasX, atlasY, 24, 24));
+    wxImage scaledImage = image.Scale(getWidth(), getHeight(), wxIMAGE_QUALITY_NEAREST);
+    wxBitmap bitmap(scaledImage);
+    dc.DrawBitmap(bitmap, getX(), getY(), true);
 
-    for (EditorElement* element : editorParams->selectedElements) {
-        if (element == this) {
-            selected = true;
-            break;
-        }
-    }
-
-    if (selected) {
-        dc.SetPen(wxPen(wxColor(255, 128, 0), 2));
-    } else {
-        dc.SetPen(wxPen(wxColor(0, 0, 0), 1));
-    }
-
-    if (blockType == 1) {
-        dc.SetBrush(wxBrush(wxColor(0, 255, 0)));
-    } else if (blockType == 2) {
-        dc.SetBrush(wxBrush(wxColor(255, 0, 0)));
-    } else {
-        dc.SetBrush(wxBrush(wxColor(200, 200, 200)));
-    }
-
-    dc.DrawRectangle(getX(), getY(), getWidth(), getHeight());
 }
 
 void BlockElement::save(std::ofstream& out) {
