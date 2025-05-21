@@ -112,7 +112,8 @@ EditorMainWindow::EditorMainWindow(const wxString& title)
                                 wxDefaultPosition, wxSize(800, 60), 
                                 wxTB_HORIZONTAL | wxTB_FLAT | wxTB_NODIVIDER);
     
-    
+    wxPNGHandler* pngHandler = new wxPNGHandler();
+    wxImage::AddHandler(pngHandler);
     if (editorParams->blockAtlas.LoadFile("blocks.png", wxBITMAP_TYPE_PNG))
     {
         SetStatusText("Block atlas loaded successfully.");
