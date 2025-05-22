@@ -1,15 +1,12 @@
-import binascii
-import os
 
 outputFileName = "blocks.props"
 
-outputFile = open(outputFileName, "wb")
 
 inputSchema = open("schema.txt", "r")
 inputSchemaLines = inputSchema.readlines()
 inputSchema.close()
 
-schemaParsed = {}
+schemaParsed = []
 
 blockProps = {
     "B": 0b00000000,
@@ -25,19 +22,21 @@ for line in inputSchemaLines:
     name = lineArgs[2]
     
     lineDict = {"id": id, "props": props, "name": name}
+    schemaParsed.append(lineDict)
 
+outputFile = open(outputFileName, "wb")
 outputFile.write(len(schemaParsed).to_bytes(4, byteorder='little'))
 for line in schemaParsed:
-    lineDict = schemaParsed[line]
+    lineTab = line
     
     parsedProps = blockProps["B"]
-    for prop in lineDict["props"]:
+    for prop in lineTab["props"]:
         if prop in blockProps:
             parsedProps |= blockProps[prop]
-    
-    outputFile.write(lineDict["id"].to_bytes(4, byteorder='little'))
+
+    outputFile.write(lineTab["id"].to_bytes(4, byteorder='little'))
     outputFile.write(parsedProps.to_bytes(1, byteorder='little'))
     outputFile.write(b'\x00')
-    outputFile.write(lineDict["name"].encode('utf-8'))
+    outputFile.write(lineTab["name"].encode('utf-8'))
     outputFile.write(b'\x00')
     
