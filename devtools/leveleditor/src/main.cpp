@@ -125,7 +125,9 @@ EditorMainWindow::EditorMainWindow(const wxString& title)
         throw std::runtime_error("Failed to load block atlas.");
     }
 
-
+    editorParams->blockSchemas = readSchemasFromFile("blocks.props");
+    std::cout << "Loaded " << editorParams->blockSchemas.size() << " block schemas." << std::endl;
+    
     wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
     topSizer->Add(toolSelector, 1, wxEXPAND);
     topPanel->SetSizer(topSizer);

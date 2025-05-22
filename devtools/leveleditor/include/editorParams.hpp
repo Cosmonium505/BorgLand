@@ -2,6 +2,8 @@
 
 #include <vector>
 #include "editorElement.hpp"
+#include "blockSchema.hpp"
+
 
 enum EditorTool {
     TOOL_SELECT,
@@ -29,6 +31,8 @@ class EditorEngineParams {
         std::vector<EditorElement*> selectedElements;
 
         std::vector<std::vector<EditorElement*>> undoStack;
+
+        std::vector<BlockSchema> blockSchemas;
 
         std::vector<EditorElement*> elements;
 };

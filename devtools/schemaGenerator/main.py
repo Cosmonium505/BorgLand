@@ -19,7 +19,7 @@ for line in inputSchemaLines:
     lineArgs = line.split(",")
     id = int(lineArgs[0])
     props = lineArgs[1]
-    name = lineArgs[2]
+    name = lineArgs[2].strip()
     
     lineDict = {"id": id, "props": props, "name": name}
     schemaParsed.append(lineDict)
@@ -36,7 +36,6 @@ for line in schemaParsed:
 
     outputFile.write(lineTab["id"].to_bytes(4, byteorder='little'))
     outputFile.write(parsedProps.to_bytes(1, byteorder='little'))
-    outputFile.write(b'\x00')
+    outputFile.write(len(lineTab["name"]).to_bytes(4, byteorder='little'))
     outputFile.write(lineTab["name"].encode('utf-8'))
-    outputFile.write(b'\x00')
     

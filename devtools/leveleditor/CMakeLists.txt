@@ -28,6 +28,7 @@ set(LEVEL_EDITOR_SOURCE_EXTERN
 add_executable(LevelEditor
     src/main.cpp
     src/mainDisplay.cpp
+    src/blockSchema.cpp
     src/blockSelector.cpp
     src/toolDisplay.cpp
     src/saveLevel.cpp
