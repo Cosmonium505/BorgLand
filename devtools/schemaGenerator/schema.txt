@@ -1,3 +1,7 @@
 0,BS,Blue Bricks
 1,IP,Player Spawn
 2,BSK,Kill Block
+3,BST,Sticky Block
+4,BJ,Jump Pad
+5,BSX,Breakable Block
+6,BL,Level Swap Portal

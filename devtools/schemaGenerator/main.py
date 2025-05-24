@@ -9,11 +9,16 @@ inputSchema.close()
 schemaParsed = []
 
 blockProps = {
-    "B": 0b00000000,
-    "S": 0b00000001,
-    "I": 0b00000010,
-    "P": 0b00000100,
-    "K": 0b00001000
+    "B": 0b00000000, # Base (basically a block)
+    "S": 0b00000001, # Solid
+    "I": 0b00000010, # Invisible
+    "P": 0b00000100, # Player Spawn
+    "K": 0b00001000, # Killbrick
+    "T": 0b00010000, # Sticky
+    "J": 0b00100000, # Jump pad
+    "X": 0b01000000, # Breakable
+    "L": 0b10000000  # Level Swap
+
 }
 
 for line in inputSchemaLines:
