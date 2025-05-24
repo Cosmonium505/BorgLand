@@ -12,7 +12,8 @@ blockProps = {
     "B": 0b00000000,
     "S": 0b00000001,
     "I": 0b00000010,
-    "P": 0b00000100
+    "P": 0b00000100,
+    "K": 0b00001000
 }
 
 for line in inputSchemaLines:
