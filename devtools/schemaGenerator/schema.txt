@@ -1,2 +1,3 @@
 0,BS,Blue Bricks
 1,IP,Player Spawn
+2,BSK,Kill Block
