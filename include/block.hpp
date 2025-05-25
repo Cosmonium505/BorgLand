@@ -10,6 +10,7 @@ class Block : public Object {
             blockType = 0;
             type = ObjectType::BLOCK;
         }
+        unsigned char special = 0;
         int blockType = 0;
 
         virtual void render(SDL_Renderer* renderer) override;

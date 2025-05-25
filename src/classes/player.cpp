@@ -38,6 +38,7 @@ void Player::update(std::vector<SDL_Event> &events, float deltaTime) {
         if (block->type != ObjectType::BLOCK) {
             continue;
         }
+        
         float blockX = block->pos[0];
         float blockY = block->pos[1];
         float blockWidth = block->size[0];

@@ -65,7 +65,16 @@ int main() {
             block->name = "Block";
             block->pos[0] = tile.x;
             block->pos[1] = tile.y;
-            block->blockType = tile.type;
+            block->blockType = tile.type - 1;
+            
+            BlockSchema* blockSchema;
+            for (BlockSchema& schema : engineParams.blockSchemas) {
+                if (schema.id == tile.type) {
+                    blockSchema = &schema;
+                    break;
+                }
+            }
+            block->special = blockSchema->type;
             block->size[0] = 50;
             block->size[1] = 50;
             block->color[0] = 200;
