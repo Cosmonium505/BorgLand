@@ -271,6 +271,7 @@ void GameEditorDisplay::MoveSelLeft(wxCommandEvent& event) {
         if (shiftDown) {
             BlockElement* newBlock = new BlockElement(block->x - editorParams->gridSize, block->y, 
                                                      block->width, block->height);
+            newBlock->blockType = block->blockType;
             newSelectedElements.push_back(newBlock);  
             editorParams->elements.push_back(newBlock);                     
         }
@@ -301,6 +302,7 @@ void GameEditorDisplay::MoveSelRight(wxCommandEvent& event) {
         if (shiftDown) {
             BlockElement* newBlock = new BlockElement(block->x + editorParams->gridSize, block->y, 
                                                      block->width, block->height);
+            newBlock->blockType = block->blockType;
             newSelectedElements.push_back(newBlock);  
             editorParams->elements.push_back(newBlock);                     
         }
@@ -331,6 +333,7 @@ void GameEditorDisplay::MoveSelUp(wxCommandEvent& event) {
         if (shiftDown) {
             BlockElement* newBlock = new BlockElement(block->x, block->y - editorParams->gridSize, 
                                                      block->width, block->height);
+            newBlock->blockType = block->blockType;
             newSelectedElements.push_back(newBlock);  
             editorParams->elements.push_back(newBlock);                     
         }
@@ -380,6 +383,7 @@ void GameEditorDisplay::MoveSelDown(wxCommandEvent& event) {
         if (shiftDown) {
             BlockElement* newBlock = new BlockElement(block->x, block->y + editorParams->gridSize, 
                                                      block->width, block->height);
+            newBlock->blockType = block->blockType;
             newSelectedElements.push_back(newBlock);  
             editorParams->elements.push_back(newBlock);                     
         }
