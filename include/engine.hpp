@@ -1,7 +1,10 @@
 #pragma once
 #include "world.hpp"
+#include "blockSchema.hpp"
+
 #include <string>
 #include <SDL2/SDL.h>
+
 #include <vector>
 
 class EngineParams {
@@ -9,10 +12,12 @@ class EngineParams {
         int screenWidth = 800;
         int screenHeight = 600;
         std::string title = "Borgland";
+        std::vector<BlockSchema*> blockSchemas;
 
         std::vector<Uint8*> keys;
         
         SDL_GameController* controller;
+        SDL_Surface* blockAtlas;
         
         World* currentWorld = nullptr;
 

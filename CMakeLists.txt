@@ -12,9 +12,13 @@ src/classes/world.cpp
 src/classes/player.cpp
 src/classes/block.cpp
 src/tileLoader.cpp
-src/controller.cpp)
+src/controller.cpp
+devtools/leveleditor/src/blockSchema.cpp
+)
 
 include_directories(include)
+include_directories(devtools/schemaGenerator)
+include_directories(devtools/leveleditor/include)
 
 enable_testing()
 

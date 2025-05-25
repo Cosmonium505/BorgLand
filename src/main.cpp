@@ -38,6 +38,11 @@ int main() {
     engineParams.screenHeight = 720;
     engineParams.title = "Borgland";
     engineParams.engineTime = 0;
+
+    // Load block schemas
+
+    engineParams.blockSchemas = loadBlockSchemasFromFile("blocks.props");
+    SDL_Surface* blockAtlas = SDL_LoadPNG("blocks.png");
     
     // World Setup
 
@@ -51,6 +56,7 @@ int main() {
             block->name = "Block";
             block->pos[0] = tile.x;
             block->pos[1] = tile.y;
+            block->type tile.type;
             block->size[0] = 50;
             block->size[1] = 50;
             block->color[0] = 200;
