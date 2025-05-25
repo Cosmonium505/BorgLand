@@ -53,7 +53,7 @@ int main() {
 
     std::vector<Tile> tiles = loadTilemapFromFile("testMap.lvlc");
     for (Tile& tile : tiles) {
-        if (tile.type == 2) {
+        if (tile.type == 1) {
             Player* player = new Player();
             player->name = "Player";
             player->pos[0] = tile.x;
@@ -65,7 +65,7 @@ int main() {
             block->name = "Block";
             block->pos[0] = tile.x;
             block->pos[1] = tile.y;
-            block->blockType = tile.type - 1;
+            block->blockType = tile.type;
             
             BlockSchema* blockSchema;
             for (BlockSchema& schema : engineParams.blockSchemas) {
