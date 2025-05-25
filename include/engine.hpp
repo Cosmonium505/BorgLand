@@ -12,12 +12,12 @@ class EngineParams {
         int screenWidth = 800;
         int screenHeight = 600;
         std::string title = "Borgland";
-        std::vector<BlockSchema*> blockSchemas;
+        std::vector<BlockSchema> blockSchemas;
 
         std::vector<Uint8*> keys;
         
         SDL_GameController* controller;
-        SDL_Surface* blockAtlas;
+        SDL_Texture* blockAtlas;
         
         World* currentWorld = nullptr;
 

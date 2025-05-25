@@ -7,6 +7,7 @@
 #include "player.hpp"
 #include "block.hpp"
 #include "controller.hpp"
+#include "SDL2/SDL_image.h"
 
 #include "engine.hpp"
 #include "utils/tileLoader.hpp"
@@ -41,8 +42,9 @@ int main() {
 
     // Load block schemas
 
-    engineParams.blockSchemas = loadBlockSchemasFromFile("blocks.props");
-    SDL_Surface* blockAtlas = SDL_LoadPNG("blocks.png");
+    engineParams.blockSchemas = readSchemasFromFile("blocks.props");
+    SDL_Surface* blockAtlas = IMG_Load("blocks.png");
+    engineParams.blockAtlas = SDL_CreateTextureFromSurface(renderer, blockAtlas);
     
     // World Setup
 
@@ -51,25 +53,25 @@ int main() {
 
     std::vector<Tile> tiles = loadTilemapFromFile("testMap.lvlc");
     for (Tile& tile : tiles) {
-        if (tile.type == 1) {
+        if (tile.type == 2) {
+            Player* player = new Player();
+            player->name = "Player";
+            player->pos[0] = tile.x;
+            player->pos[1] = tile.y;
+            world.objects.push_back(player);
+        }
+        else {
             Block* block = new Block();
             block->name = "Block";
             block->pos[0] = tile.x;
             block->pos[1] = tile.y;
-            block->type tile.type;
+            block->blockType = tile.type;
             block->size[0] = 50;
             block->size[1] = 50;
             block->color[0] = 200;
             block->color[1] = 200;
             block->color[2] = 200;
             world.objects.push_back(block);
-        }
-        else if (tile.type == 2) {
-            Player* player = new Player();
-            player->name = "Player";
-            player->pos[0] = tile.x;
-            player->pos[1] = tile.y;
-            world.objects.push_back(player);
         }
 
     }

@@ -20,6 +20,10 @@ include_directories(include)
 include_directories(devtools/schemaGenerator)
 include_directories(devtools/leveleditor/include)
 
+if (APPLE)
+    include_directories(/opt/homebrew/include)
+endif()
+
 enable_testing()
 
 if(WIN32)
@@ -46,9 +50,11 @@ set_target_properties(BorgLand PROPERTIES
 )
 
 find_package(SDL2 CONFIG REQUIRED)
+find_package(SDL2_image CONFIG REQUIRED)
 
 target_link_libraries(BorgLand
     PRIVATE
     $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
     $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+    $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
 )
