@@ -19,7 +19,8 @@ blockProps = {
     "X": 0b01000000, # Breakable
     "L": 0b10000000  # Level Swap
 
-}
+} # Reminder: Add Gravity Field and a Reverse Gravity Field. Also add the property to the gravity field.
+# Add "C" for climbable when snow adds the bit expansion (to 32 bits.)
 
 for line in inputSchemaLines:
     lineArgs = line.split(",")

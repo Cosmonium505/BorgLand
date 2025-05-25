@@ -5,3 +5,15 @@
 4,BJ,Jump Pad
 5,BSX,Breakable Block
 6,BL,Level Swap Portal
+7,BS,Vent Wall
+8,BSX,Vent Cover
+9,BSX,Glass
+10,B,Frame
+11,BS,Electrical Box
+12,B,Gravity Field
+13,B,Reverse Gravity Field
+14,BS,Tiles
+15,B,Background Tiles
+16,B,Ceiling Light
+17,B,Ladder
+18,BS,Grate
