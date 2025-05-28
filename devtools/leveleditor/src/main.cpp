@@ -11,6 +11,7 @@
 #include "ui/blockSelector.hpp"
 #include "ui/toolDisplay.hpp"
 #include "saveLevel.hpp"
+#include "ui/propertyGrid.hpp"
 
 EditorEngineParams *editorParams = new EditorEngineParams();
 
@@ -138,15 +139,42 @@ EditorMainWindow::EditorMainWindow(const wxString& title)
     
     wxPanel* leftPanel = new wxPanel(splitter);
     wxPanel* rightPanel = new wxPanel(splitter);
+
     
-    BlockSelector* blockSelector = new BlockSelector(rightPanel, GetId(), 
-                              wxDefaultPosition, wxSize(200, 600), 
-                              wxLB_SINGLE);
+    BlockSelector* blockSelector = new BlockSelector(this, GetId(), 
+                                                wxDefaultPosition, wxSize(200, 600), 
+                                                wxLB_SINGLE);
+    
+    PropertyGrid* propertyGrid = new PropertyGrid(this, wxID_ANY, 
+                                wxDefaultPosition, wxDefaultSize, 
+                                wxWANTS_CHARS | wxTAB_TRAVERSAL);
+
+    wxSplitterWindow* propertySplitter = new wxSplitterWindow(this, wxID_ANY, 
+                                wxDefaultPosition, wxDefaultSize, 
+                                wxSP_BORDER | wxSP_LIVE_UPDATE);
+
+    // Create panel for block selector
+    wxPanel* blockPanel = new wxPanel(propertySplitter);
+    wxBoxSizer* blockSizer = new wxBoxSizer(wxVERTICAL);
+    blockSizer->Add(blockSelector, 1, wxEXPAND | wxALL, 5);
+    blockPanel->SetSizer(blockSizer);
+
+    // Setup property panel
+    wxPanel* propertyPanel = new wxPanel(propertySplitter);
+    wxBoxSizer* propertySizer = new wxBoxSizer(wxVERTICAL);
+    propertySizer->Add(propertyGrid, 1, wxEXPAND | wxALL, 5);
+    propertyPanel->SetSizer(propertySizer);
+    
+    // Split the property panels
+    propertySplitter->SplitHorizontally(blockPanel, propertyPanel);
+    propertySplitter->SetMinimumPaneSize(100);
+    propertySplitter->SetSashGravity(0.5);
 
     GameEditorDisplay* editorDisplay = new GameEditorDisplay(leftPanel);
     
+    // Update right sizer to use the property splitter
     wxBoxSizer* rightSizer = new wxBoxSizer(wxVERTICAL);
-    rightSizer->Add(blockSelector, 1, wxEXPAND | wxALL, 5);
+    rightSizer->Add(propertySplitter, 1, wxEXPAND | wxALL, 5);
     rightPanel->SetSizer(rightSizer);
 
     wxBoxSizer* leftSizer = new wxBoxSizer(wxVERTICAL);
