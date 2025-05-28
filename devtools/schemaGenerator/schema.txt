@@ -17,3 +17,5 @@
 16,B,Ceiling Light
 17,B,Ladder
 18,BS,Grate
+19,BS,Wall Panel
+20,B, Background Wall Panel
